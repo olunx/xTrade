@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% block title %}热销{% endblock %}
+{% block page_title %}热销{% endblock %}
+{% block breadcrumb %}
+    <li class="active"><a href="#">首页</a></li>
+    <li><a href="#">热销</a></li>
+{% endblock %}
+{% block content %}
+    <div class="panel">
+
+        <!--DATA TABLE-->
+        <!--===================================================-->
+
+        <div class="panel-body">
+
+            <div class="bootstrap-table">
+                <div class="fixed-table-toolbar">
+                    <div class="bars pull-left">
+                        <h4 id="demo-custom-toolbar" class="box-inline text-thin">
+                        Data Table
+                        </h4>
+                    </div>
+                    <div class="columns btn-group pull-right">
+                        <button class="btn btn-default" type="button" name="refresh"><i class="fa fa-refresh"></i>
+                        </button>
+                        <button class="btn btn-default" type="button" name="toggle"><i class="fa fa-list-alt"></i>
+                        </button>
+                        <div class="keep-open btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-th "></i> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><label><input type="checkbox" value="0" checked="checked"> Invoice</label></li>
+                                <li><label><input type="checkbox" value="1" checked="checked"> User</label></li>
+                                <li><label><input type="checkbox" value="2" checked="checked"> Order Date</label></li>
+                                <li><label><input type="checkbox" value="3" checked="checked"> Amount</label></li>
+                                <li><label><input type="checkbox" value="4" checked="checked"> Status</label></li>
+                                <li><label><input type="checkbox" value="5" checked="checked"> Tracking Number</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pull-right search"><input class="form-control" type="text" placeholder="Search"></div>
+                </div>
+                <div class="fixed-table-container">
+                    <div class="fixed-table-header">
+                        <table></table>
+                    </div>
+                    <div class="fixed-table-body">
+                        <div class="fixed-table-loading" style="top: 37px; display: none;">Loading, please wait…</div>
+                        <table id="demo-table" class="table-striped table table-hover"
+                               data-toolbar="#demo-custom-toolbar" data-sort-name="id" data-sort-order="desc"
+                               data-pagination="true" data-url="data1.json" data-show-refresh="true"
+                               data-show-toggle="true" data-show-columns="true" data-search="true"
+                               data-select-item-name="toolbar1">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">Ebay ID</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="">
+                                    <div class="th-inner sortable">标题</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">售出数</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">关注数</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">国家</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="">
+                                    <div class="th-inner sortable">价格</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">价格类型</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="">
+                                    <div class="th-inner sortable">链接</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-index="0">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53454</a></td>
+                                <td style=""><a href="#" class="btn-link"> Charles S Boyle</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Today 01:25 PM</small>
+                                </td>
+                                <td style="text-align: center; ">$132.20</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-success text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Paid
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="1">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53453</a></td>
+                                <td style=""><a href="#" class="btn-link"> Steve N. Horton</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Today 11:03 AM</small>
+                                </td>
+                                <td style="text-align: center; ">$74.00</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-success text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Paid
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="2">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53452</a></td>
+                                <td style=""><a href="#" class="btn-link"> Lucy Doe</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Today 10:56 PM</small>
+                                </td>
+                                <td style="text-align: center; ">$12.00</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-warning text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Unpaid
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="3">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53451</a></td>
+                                <td style=""><a href="#" class="btn-link"> Teresa L. Doe</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Yesterday 05:25 PM</small>
+                                </td>
+                                <td style="text-align: center; ">$532.99</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-info text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Shipped
+                                    </div>
+                                </td>
+                                <td style="text-align: center; "><i class="fa fa-plane"></i> CGX0089675674</td>
+                            </tr>
+                            <tr data-index="4">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53450</a></td>
+                                <td style=""><a href="#" class="btn-link"> Lucy Doe</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Yesterday 03:25 PM</small>
+                                </td>
+                                <td style="text-align: center; ">$45.00</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-danger text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Refunded
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="5">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53449</a></td>
+                                <td style=""><a href="#" class="btn-link"> Michael Bunr</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Nov 10, 2014</small>
+                                </td>
+                                <td style="text-align: center; ">$23.00</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-success text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Paid
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="6">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53448</a></td>
+                                <td style=""><a href="#" class="btn-link"> Steve N. Horton</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Nov 10, 2014</small>
+                                </td>
+                                <td style="text-align: center; ">$74.50</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-warning text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Unpaid
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="7">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53448</a></td>
+                                <td style=""><a href="#" class="btn-link"> Teresa L. Doe</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Nov 8, 2014</small>
+                                </td>
+                                <td style="text-align: center; ">$198.99</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-info text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Shipped
+                                    </div>
+                                </td>
+                                <td style="text-align: center; "><i class="fa fa-plane"></i> CGX002723445674</td>
+                            </tr>
+                            <tr data-index="8">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53447</a></td>
+                                <td style=""><a href="#" class="btn-link"> Charles S Boyle</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Nov 5, 2014</small>
+                                </td>
+                                <td style="text-align: center; ">$263.00</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-warning text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Unpaid
+                                    </div>
+                                </td>
+                                <td style="text-align: center; ">-</td>
+                            </tr>
+                            <tr data-index="9">
+                                <td style="text-align: center; "><a href="#" class="btn-link text-dark text-thin"> Order
+                                    #53446</a></td>
+                                <td style=""><a href="#" class="btn-link"> Scott S. Calabrese</a></td>
+                                <td style="">
+                                    <small class="text-muted"><i class="fa fa-clock-o"></i> Nov 1, 2014</small>
+                                </td>
+                                <td style="text-align: center; ">$24.00</td>
+                                <td style="text-align: center; ">
+                                    <div class="label label-info text-lg"
+                                         style="display:inline-block; width:80%; font-size:1em; max-width:100px; padding:5px">
+                                        Shipped
+                                    </div>
+                                </td>
+                                <td style="text-align: center; "><i class="fa fa-plane"></i> CGX0089934571</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fixed-table-pagination">
+                        <div class="pull-left pagination-detail"><span class="pagination-info">Showing 1 to 10 of 21 rows</span><span
+                                class="page-list"><span class="btn-group dropup"><button type="button"
+                                                                                         class="btn btn-default dropdown-toggle"
+                                                                                         data-toggle="dropdown"><span
+                                class="page-size">10</span> <span class="caret"></span></button><ul
+                                class="dropdown-menu" role="menu">
+                            <li class="active"><a href="javascript:void(0)">10</a></li>
+                            <li><a href="javascript:void(0)">25</a></li>
+                            <li><a href="javascript:void(0)">50</a></li>
+                            <li><a href="javascript:void(0)">100</a></li>
+                        </ul></span> records per page</span></div>
+                        <div class="pull-right pagination">
+                            <ul class="pagination">
+                                <li class="page-first disabled"><a href="javascript:void(0)">&lt;&lt;</a></li>
+                                <li class="page-pre disabled"><a href="javascript:void(0)">&lt;</a></li>
+                                <li class="page-number active"><a href="javascript:void(0)">1</a></li>
+                                <li class="page-number"><a href="javascript:void(0)">2</a></li>
+                                <li class="page-number"><a href="javascript:void(0)">3</a></li>
+                                <li class="page-next"><a href="javascript:void(0)">&gt;</a></li>
+                                <li class="page-last"><a href="javascript:void(0)">&gt;&gt;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!--===================================================-->
+        <!--END OF DATA TABLE-->
+
+
+    </div>
+{% endblock %}
