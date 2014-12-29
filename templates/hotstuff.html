@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}热销{% endblock %}
-{% block page_title %}热销{% endblock %}
+{% block page_title %}热销 - {{ category }}{% endblock %}
 {% block breadcrumb %}
     <li class="active"><a href="#">首页</a></li>
     <li><a href="#">热销</a></li>
+    <li><a href="#">{{ category }}</a></li>
 {% endblock %}
 {% block content %}
     <div class="panel">
@@ -17,7 +18,7 @@
                 <div class="fixed-table-toolbar">
                     <div class="bars pull-left">
                         <h4 id="demo-custom-toolbar" class="box-inline text-thin">
-                        Data Table
+                        {{ category }}
                         </h4>
                     </div>
                     <div class="columns btn-group pull-right">
@@ -85,40 +86,63 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-index="0">
-                                <td style="text-align: center;">261697928924</td>
-                                <td style=""><a href="#" class="btn-link"> Free Shipping M26 Android Bluetooth Business Smart  LED Watch 4 Color For Choose</a></td>
-                                <td style="text-align: center; ">0</td>
-                                <td style="text-align: center; ">20</td>
-                                <td style="text-align: center; ">From China</td>
-                                <td style="text-align: center; ">RMB 132.20</td>
-                                <td style="text-align: center; ">Buy It Now</td>
+                            {% for stuff in stuffs %}
+                                <tr data-index="0">
+                                <td style="text-align: center;">{{ stuff.item_id }}</td>
+                                <td style=""><a class="btn-link" href="{{ stuff.url }}" target="_blank">{{ stuff.title }}</a></td>
+                                <td style="text-align: center; ">{{ stuff.sold }}</td>
+                                <td style="text-align: center; ">{{ stuff.watching }}</td>
+                                <td style="text-align: center; ">{{ stuff.country }}</td>
+                                <td style="text-align: center; ">{{ stuff.price }}</td>
+                                <td style="text-align: center; ">{{ stuff.price_type }}</td>
                             </tr>
-
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <div class="fixed-table-pagination">
-                        <div class="pull-left pagination-detail"><span class="pagination-info">Showing 1 to 10 of 21 rows</span><span
-                                class="page-list"><span class="btn-group dropup"><button type="button"
-                                                                                         class="btn btn-default dropdown-toggle"
-                                                                                         data-toggle="dropdown"><span
-                                class="page-size">10</span> <span class="caret"></span></button><ul
-                                class="dropdown-menu" role="menu">
-                            <li class="active"><a href="javascript:void(0)">10</a></li>
-                            <li><a href="javascript:void(0)">25</a></li>
-                            <li><a href="javascript:void(0)">50</a></li>
-                            <li><a href="javascript:void(0)">100</a></li>
-                        </ul></span> records per page</span></div>
+                        <div class="pull-left pagination-detail">
+{#                            <span class="pagination-info">第 {{ stuffs.start_index }} 至 {{ stuffs.end_index }} 条</span>#}
+                            <span class="pagination-info"> 第 {{ stuffs.number }} 页 共 {{ stuffs.paginator.num_pages }} 页</span>
+                            <span class="page-list">
+                                每页
+                                <span class="btn-group dropup">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="page-size">25</span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="javascript:void(0)">10</a></li>
+                                        <li class="active"><a href="javascript:void(0)">25</a></li>
+                                        <li><a href="javascript:void(0)">50</a></li>
+                                        <li><a href="javascript:void(0)">100</a></li>
+                                    </ul>
+                                </span>
+                                条
+                            </span>
+                        </div>
                         <div class="pull-right pagination">
                             <ul class="pagination">
-                                <li class="page-first disabled"><a href="javascript:void(0)">&lt;&lt;</a></li>
-                                <li class="page-pre disabled"><a href="javascript:void(0)">&lt;</a></li>
-                                <li class="page-number active"><a href="javascript:void(0)">1</a></li>
-                                <li class="page-number"><a href="javascript:void(0)">2</a></li>
-                                <li class="page-number"><a href="javascript:void(0)">3</a></li>
-                                <li class="page-next"><a href="javascript:void(0)">&gt;</a></li>
-                                <li class="page-last"><a href="javascript:void(0)">&gt;&gt;</a></li>
+                                {% if stuffs.has_previous %}
+                                    <li class="page-first"><a href="/hotstuff/?category={{ category }}&page=1">首页</a></li>
+                                    <li class="page-pre"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.previous_page_number }}">上一页</a></li>
+                                    {% if stuffs.previous_page_number > 1 %}
+                                        <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.previous_page_number|add:-1 }}">{{ stuffs.previous_page_number|add:-1 }}</a></li>
+                                    {% endif %}
+                                    <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.previous_page_number }}">{{ stuffs.previous_page_number }}</a></li>
+                                {% else %}
+                                    <li class="page-pre disabled"><a href="javascript:void(0)">上一页</a></li>
+                                {% endif %}
+                                <li class="page-number active"><a href="javascript:void(0)">{{ stuffs.number }}</a></li>
+                                {% if stuffs.has_next %}
+                                    <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.next_page_number }}">{{ stuffs.next_page_number }}</a></li>
+                                    {% if stuffs.paginator.num_pages > stuffs.next_page_number %}
+                                        <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.next_page_number|add:1 }}">{{ stuffs.next_page_number|add:1 }}</a></li>
+                                    {% endif %}
+                                    <li class="page-next"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.next_page_number }}">下一页</a></li>
+                                    <li class="page-last"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.paginator.num_pages }}">末页</a></li>
+                                {% else %}
+                                    <li class="page-next disabled"><a href="javascript:void(0)">下一页</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
