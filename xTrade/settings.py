@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for xTrade project.
 
@@ -37,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'apps.ebay',
+    'apps.alibabachina',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,3 +107,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
 )
+
+# 添加Scrapy支持
+# import sys
+# import os
+# sys.path.append('/Users/olunx/Documents/workspace/xSpider')
+# os.environ['SCRAPY_SETTINGS_MODULE'] = 'xspider.settings'

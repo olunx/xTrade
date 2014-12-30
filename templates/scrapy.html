@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}抓取{% endblock %}
+{% block page_title %}抓取{% endblock %}
+{% block breadcrumb %}
+    <li class="active"><a href="#">首页</a></li>
+    <li class="active"><a href="#">抓取</a></li>
+{% endblock %}
+{% block content %}
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">1688页面网址</h3>
+        </div>
+
+        <!--BUTTONS ADDONS-->
+        <!--===================================================-->
+        <form class="form-horizontal">
+            <div class="panel-body">
+
+                <div class="input-group mar-btm">
+                    <input type="text" placeholder="网址粘贴到这里" class="form-control" name="page">
+                        <span class="input-group-btn">
+                        <button class="btn btn-danger btn-labeled fa fa-search" type="submit">抓取</button>
+                        </span>
+                </div>
+
+            </div>
+        </form>
+
+        <!--===================================================-->
+        <!--END OF BUTTONS ADDONS-->
+
+    </div>
+{% endblock %}

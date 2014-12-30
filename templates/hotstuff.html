@@ -55,8 +55,12 @@
                                data-select-item-name="toolbar1">
                             <thead>
                             <tr>
+{#                                <th style="text-align: center; ">#}
+{#                                    <div class="th-inner sortable">Ebay ID</div>#}
+{#                                    <div class="fht-cell"></div>#}
+{#                                </th>#}
                                 <th style="text-align: center; ">
-                                    <div class="th-inner sortable">Ebay ID</div>
+                                    <div class="th-inner sortable">序号</div>
                                     <div class="fht-cell"></div>
                                 </th>
                                 <th style="">
@@ -87,15 +91,16 @@
                             </thead>
                             <tbody>
                             {% for stuff in stuffs %}
-                                <tr data-index="0">
-                                <td style="text-align: center;">{{ stuff.item_id }}</td>
+                                <tr data-index="{{ forloop.counter }}">
+{#                                <td style="text-align: center;">{{ stuff.item_id }}</td>#}
+                                <td style="text-align: center;">{{ forloop.counter }}</td>
                                 <td style=""><a class="btn-link" href="{{ stuff.url }}" target="_blank">{{ stuff.title }}</a></td>
                                 <td style="text-align: center; ">{{ stuff.sold }}</td>
                                 <td style="text-align: center; ">{{ stuff.watching }}</td>
                                 <td style="text-align: center; ">{{ stuff.country }}</td>
                                 <td style="text-align: center; ">{{ stuff.price }}</td>
                                 <td style="text-align: center; ">{{ stuff.price_type }}</td>
-                            </tr>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>
