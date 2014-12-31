@@ -32,7 +32,10 @@
     <!--For further information and examples, can be found in the document.-->
 
     <!-- ================================================================= -->
-
+    {% block css %}
+        <style type="text/css">
+        </style>
+    {% endblock %}
 
 </head>
 <body>
@@ -1525,8 +1528,10 @@
 {#        $('#container').addClass('mainnav-sm');#}
         $('#container').addClass('navbar-fixed');
     });
-
 </script>
+
+{% block js %}
+{% endblock %}
 <!-- ================================================= -->
 
 

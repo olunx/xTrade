@@ -1,33 +1,153 @@
 {% extends 'base.html' %}
 {% block title %}抓取{% endblock %}
 {% block page_title %}抓取{% endblock %}
+{% block css %}
+    <style type="text/css">
+        .input-group-btn > .btn {
+            height: 32px;
+        }
+    </style>
+    <link href="/static/js/image-picker/image-picker.css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+{#    <script src="/static/js/image-picker/image-picker.js"></script>#}
+{#    <script type="text/javascript">#}
+{#        $("select.image-picker").imagepicker({#}
+{#          hide_select:  false#}
+{#        });#}
+{#    </script>#}
+{% endblock %}
 {% block breadcrumb %}
     <li class="active"><a href="#">首页</a></li>
     <li class="active"><a href="#">抓取</a></li>
 {% endblock %}
 {% block content %}
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">1688页面网址</h3>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">输入</h3>
+            </div>
+
+            <!--BUTTONS ADDONS-->
+            <!--===================================================-->
+            <form class="form-horizontal" method="post">
+                <div class="panel-body">
+                    <div class="input-group mar-btm">
+                        <div class="input-group-btn">
+                            <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button"
+                                    aria-expanded="false">网址 <i class="dropdown-caret fa fa-caret-down"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0);">1688</a>
+                                </li>
+                                <li><a href="javascript:void(0);">淘宝</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:void(0);">ebay</a>
+                                <li><a href="javascript:void(0);">aliexpress</a>
+                                <li><a href="javascript:void(0);">wish</a>
+                                <li><a href="javascript:void(0);">fancy</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {% csrf_token %}
+                        <input type="text" class="form-control" name="page" placeholder="输入要抓取的网址"
+                               value="{{ item.url }}">
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-danger btn-labeled fa fa-paw" type="submit">抓取</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!--===================================================-->
+            <!--END OF BUTTONS ADDONS-->
         </div>
+    </div>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">输出</h3>
+            </div>
 
-        <!--BUTTONS ADDONS-->
-        <!--===================================================-->
-        <form class="form-horizontal">
-            <div class="panel-body">
 
-                <div class="input-group mar-btm">
-                    <input type="text" placeholder="网址粘贴到这里" class="form-control" name="page">
-                        <span class="input-group-btn">
-                        <button class="btn btn-danger btn-labeled fa fa-search" type="submit">抓取</button>
-                        </span>
+            <!--INPUT SIZE-->
+            <!--===================================================-->
+
+            <form>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-10 col-md-8">
+                            <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">标题</button>
+                                </span>
+                                <input class="form-control" type="text" placeholder="" value="{{ item.title }}">
+                            </div>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">价格</button>
+                                </span>
+                                <input class="form-control" type="text" placeholder="" value="{{ item.price }}">
+                            </div>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">货源</button>
+                                </span>
+                                <input class="form-control" type="text" placeholder="" value="{{ item.location }}">
+                            </div>
+                            <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">运费</button>
+                                </span>
+                                <input class="form-control" type="text" placeholder="" value="{{ item.shipping }}">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">描述</label>
+                            <textarea id="demo-textarea-input" rows="20" class="form-control"
+                                      placeholder="描述">{{ item.content }}</textarea>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            {% for image in item.get_image_list %}
+                                <div class="col-xs-4 col-sm-3 col-md-2">
+                                    <a href="javascript:void(0);" class="thumbnail">
+                                        <img src="{{ image }}" data-holder-rendered="true"
+                                             style="height: 100px; width: 100%; display: block;">
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+{#                            <div class="picker">#}
+{#                                <select multiple="multiple" class="image-picker show-html">#}
+{#                                {% for image in item.get_image_list %}#}
+{#                                    <option data-img-src="{{ image }}" value="{{ image }}">{{ image }}</option>#}
+{#                                {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+                        </div>
+                    </div>
                 </div>
 
-            </div>
-        </form>
 
-        <!--===================================================-->
-        <!--END OF BUTTONS ADDONS-->
+                <div class="panel-footer text-right">
+                    <button class="btn btn-lg btn-info btn-labeled fa fa-google fa-lg" type="submit">翻译</button>
+                    <button class="btn btn-lg btn-danger btn-labeled fa fa-send-o fa-lg" type="submit">发布</button>
+                </div>
 
+            </form>
+
+            <!--===================================================-->
+            <!-- END OF INPUT SIZE  -->
+
+
+        </div>
     </div>
 {% endblock %}
