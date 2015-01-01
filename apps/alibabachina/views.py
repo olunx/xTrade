@@ -34,7 +34,7 @@ def get_text_content(item):
         for i in item:
             text = BeautifulSoup(i).get_text().strip()
             if text and text != "":
-                data += '%s\n' % text
+                data += '<p>%s</p>' % text
     return data
 
 

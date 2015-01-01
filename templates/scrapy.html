@@ -2,20 +2,25 @@
 {% block title %}抓取{% endblock %}
 {% block page_title %}抓取{% endblock %}
 {% block css %}
-    <style type="text/css">
-        .input-group-btn > .btn {
-            height: 32px;
-        }
-    </style>
+<style type="text/css">
+    .input-group-btn > .btn {
+        height: 32px;
+    }
+    .thumbnail .caption {
+        padding: 5px 0 5px 0;
+    }
+    .thumbnail .caption > label {
+        width: 100%;
+    }
+</style>
     <link href="/static/js/image-picker/image-picker.css" rel="stylesheet">
 {% endblock %}
 {% block js %}
-{#    <script src="/static/js/image-picker/image-picker.js"></script>#}
-{#    <script type="text/javascript">#}
-{#        $("select.image-picker").imagepicker({#}
-{#          hide_select:  false#}
-{#        });#}
-{#    </script>#}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#demo-summernote').summernote({height: 250});
+    });
+</script>
 {% endblock %}
 {% block breadcrumb %}
     <li class="active"><a href="#">首页</a></li>
@@ -104,35 +109,38 @@
                                 </span>
                                 <input class="form-control" type="text" placeholder="" value="{{ item.shipping }}">
                             </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">描述</label>
-                            <textarea id="demo-textarea-input" rows="20" class="form-control"
-                                      placeholder="描述">{{ item.content }}</textarea>
-
+                                <div id="demo-summernote" style="display: none;">{{ item.content|safe }}</div>
                             </div>
                         </div>
                     </div>
 
-
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            {% for image in item.get_image_list %}
-                                <div class="col-xs-4 col-sm-3 col-md-2">
-                                    <a href="javascript:void(0);" class="thumbnail">
-                                        <img src="{{ image }}" data-holder-rendered="true"
-                                             style="height: 100px; width: 100%; display: block;">
-                                    </a>
-                                </div>
-                            {% endfor %}
-
-{#                            <div class="picker">#}
-{#                                <select multiple="multiple" class="image-picker show-html">#}
-{#                                {% for image in item.get_image_list %}#}
-{#                                    <option data-img-src="{{ image }}" value="{{ image }}">{{ image }}</option>#}
-{#                                {% endfor %}#}
-{#                                </select>#}
-{#                            </div>#}
+                        <div class="col-md-12">
+                            <label class="control-label">图片</label>
                         </div>
+                    </div>
+                    <div class="row">
+                        {% for image in item.get_image_list %}
+                            <div class="col-xs-4 col-sm-3 col-md-2">
+                                <div class="thumbnail">
+                                    <img src="{{ image }}" data-holder-rendered="true"#}
+                                         style="height: 100px; width: 100%; display: block;">
+                                    <div class="caption">
+                                        <label class="form-checkbox form-normal form-info">
+                                            <input type="checkbox"> 图片 {{ forloop.counter }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
 
