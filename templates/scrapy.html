@@ -2,25 +2,26 @@
 {% block title %}抓取{% endblock %}
 {% block page_title %}抓取{% endblock %}
 {% block css %}
-<style type="text/css">
-    .input-group-btn > .btn {
-        height: 32px;
-    }
-    .thumbnail .caption {
-        padding: 5px 0 5px 0;
-    }
-    .thumbnail .caption > label {
-        width: 100%;
-    }
-</style>
-    <link href="/static/js/image-picker/image-picker.css" rel="stylesheet">
+    <style type="text/css">
+        .input-group-btn > .btn {
+            height: 32px;
+        }
+        .thumbnail .caption {
+            padding: 5px 0 5px 0;
+        }
+        .thumbnail .caption > label {
+            width: 100%;
+        }
+    </style>
+    <link href="/static/js/lightbox-2.7.1/css/lightbox.css" rel="stylesheet">
 {% endblock %}
 {% block js %}
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#demo-summernote').summernote({height: 250});
-    });
-</script>
+    <script src="/static/js/lightbox-2.7.1/js/lightbox.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#demo-summernote').summernote({height: 250});
+        });
+    </script>
 {% endblock %}
 {% block breadcrumb %}
     <li class="active"><a href="#">首页</a></li>
@@ -131,8 +132,10 @@
                         {% for image in item.get_image_list %}
                             <div class="col-xs-4 col-sm-3 col-md-2">
                                 <div class="thumbnail">
-                                    <img src="{{ image }}" data-holder-rendered="true"#}
+                                    <a href="{{ image }}" data-lightbox="roadtrip">
+                                        <img src="{{ image }}" data-holder-rendered="true"#}
                                          style="height: 100px; width: 100%; display: block;">
+                                    </a>
                                     <div class="caption">
                                         <label class="form-checkbox form-normal form-info">
                                             <input type="checkbox"> 图片 {{ forloop.counter }}
