@@ -32,7 +32,7 @@ def hot_stuff(request):
     except EmptyPage:
         stuffs = paginator.page(paginator.num_pages)
 
-    return render_to_response('hotstuff.html', {'category': category, 'stuffs': stuffs},
+    return render_to_response('hot-stuff.html', {'category': category, 'stuffs': stuffs},
                               context_instance=RequestContext(request))
 
 
@@ -49,4 +49,10 @@ def scrap_page(request):
     else:
         item = None
     return render_to_response('scrapy.html', {'item': item},
+                              context_instance=RequestContext(request))
+
+
+def listing_list(request):
+    items = AlibabachinaScrapy.objects.all()
+    return render_to_response('listing-list.html', {'items': items},
                               context_instance=RequestContext(request))

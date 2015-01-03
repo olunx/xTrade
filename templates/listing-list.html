@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}刊登{% endblock %}
+{% block page_title %}刊登{% endblock %}
+{% block breadcrumb %}
+    <li class="active"><a href="#">首页</a></li>
+    <li><a href="#">刊登</a></li>
+{% endblock %}
+{% block content %}
+    <div class="panel">
+
+        <!--DATA TABLE-->
+        <!--===================================================-->
+
+        <div class="panel-body">
+
+            <div class="bootstrap-table">
+                <div class="fixed-table-toolbar">
+                    <div class="bars pull-left">
+                        <h4 id="demo-custom-toolbar" class="box-inline text-thin">
+                            刊登
+                        </h4>
+                    </div>
+                    <div class="columns btn-group pull-right">
+                        <button class="btn btn-default" type="button" name="refresh"><i class="fa fa-refresh"></i>
+                        </button>
+                        <button class="btn btn-default" type="button" name="toggle"><i class="fa fa-list-alt"></i>
+                        </button>
+                        <div class="keep-open btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-th "></i> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><label><input type="checkbox" value="0" checked="checked"> Invoice</label></li>
+                                <li><label><input type="checkbox" value="1" checked="checked"> User</label></li>
+                                <li><label><input type="checkbox" value="2" checked="checked"> Order Date</label></li>
+                                <li><label><input type="checkbox" value="3" checked="checked"> Amount</label></li>
+                                <li><label><input type="checkbox" value="4" checked="checked"> Status</label></li>
+                                <li><label><input type="checkbox" value="5" checked="checked"> Tracking Number</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pull-right search"><input class="form-control" type="text" placeholder="Search"></div>
+                </div>
+                <div class="fixed-table-container">
+                    <div class="fixed-table-header">
+                        <table></table>
+                    </div>
+                    <div class="fixed-table-body">
+                        <div class="fixed-table-loading" style="top: 37px; display: none;">Loading, please wait…</div>
+                        <table id="demo-table" class="table-striped table table-hover"
+                               data-toolbar="#demo-custom-toolbar" data-sort-name="id" data-sort-order="desc"
+                               data-pagination="true" data-url="data1.json" data-show-refresh="true"
+                               data-show-toggle="true" data-show-columns="true" data-search="true"
+                               data-select-item-name="toolbar1">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">序号</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="">
+                                    <div class="th-inner sortable">标题</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">操作</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">操作</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in items %}
+                                <tr data-index="{{ forloop.counter }}">
+                                <td style="text-align: center;">{{ forloop.counter }}</td>
+                                <td style=""><a class="btn-link" href="/list-detail/?id={{ item.id }}" target="_blank">{{ item.title }}</a></td>
+                                <td style="text-align: center; ">发布</td>
+                                <td style="text-align: center; ">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button" aria-expanded="false">
+                                            Dropdown <i class="dropdown-caret fa fa-caret-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li class="dropdown-header">Dropdown header</li>
+                                            <li><a href="#">Action</a>
+                                            </li>
+                                            <li><a href="#">Another action</a>
+                                            </li>
+                                            <li><a href="#">Something else here</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li class="dropdown-header">Dropdown header</li>
+                                            <li><a href="#">Separated link</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fixed-table-pagination">
+                        <div class="pull-left pagination-detail">
+{#                            <span class="pagination-info">第 {{ stuffs.start_index }} 至 {{ stuffs.end_index }} 条</span>#}
+                            <span class="pagination-info"> 第 {{ stuffs.number }} 页 共 {{ stuffs.paginator.num_pages }} 页</span>
+                            <span class="page-list">
+                                每页
+                                <span class="btn-group dropup">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="page-size">25</span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="javascript:void(0)">10</a></li>
+                                        <li class="active"><a href="javascript:void(0)">25</a></li>
+                                        <li><a href="javascript:void(0)">50</a></li>
+                                        <li><a href="javascript:void(0)">100</a></li>
+                                    </ul>
+                                </span>
+                                条
+                            </span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <ul class="pagination">
+                                {% if stuffs.has_previous %}
+                                    <li class="page-first"><a href="/hotstuff/?category={{ category }}&page=1">首页</a></li>
+                                    <li class="page-pre"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.previous_page_number }}">上一页</a></li>
+                                    {% if stuffs.previous_page_number > 1 %}
+                                        <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.previous_page_number|add:-1 }}">{{ stuffs.previous_page_number|add:-1 }}</a></li>
+                                    {% endif %}
+                                    <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.previous_page_number }}">{{ stuffs.previous_page_number }}</a></li>
+                                {% else %}
+                                    <li class="page-pre disabled"><a href="javascript:void(0)">上一页</a></li>
+                                {% endif %}
+                                <li class="page-number active"><a href="javascript:void(0)">{{ stuffs.number }}</a></li>
+                                {% if stuffs.has_next %}
+                                    <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.next_page_number }}">{{ stuffs.next_page_number }}</a></li>
+                                    {% if stuffs.paginator.num_pages > stuffs.next_page_number %}
+                                        <li class="page-number"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.next_page_number|add:1 }}">{{ stuffs.next_page_number|add:1 }}</a></li>
+                                    {% endif %}
+                                    <li class="page-next"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.next_page_number }}">下一页</a></li>
+                                    <li class="page-last"><a href="/hotstuff/?category={{ category }}&page={{ stuffs.paginator.num_pages }}">末页</a></li>
+                                {% else %}
+                                    <li class="page-next disabled"><a href="javascript:void(0)">下一页</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!--===================================================-->
+        <!--END OF DATA TABLE-->
+
+
+    </div>
+{% endblock %}
