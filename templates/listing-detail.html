@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% block title %}抓取{% endblock %}
+{% block page_title %}抓取{% endblock %}
+{% block css %}
+    <style type="text/css">
+        .input-group-btn > .btn {
+            height: 32px;
+        }
+
+        .thumbnail .caption {
+            padding: 5px 0 5px 0;
+        }
+
+        .thumbnail .caption > label {
+            width: 100%;
+        }
+
+        .chosen-container {
+            margin-bottom: 0;
+        }
+        .chosen-container-single .chosen-single {
+            font-size: 12px;
+        }
+    </style>
+    <link href="/static/js/lightbox-2.7.1/css/lightbox.css" rel="stylesheet">
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/static/js/jquery.lazyload-1.9.3/jquery.lazyload.min.js"></script>
+    <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax.min.js"></script>
+    <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax-plugin.min.js"></script>
+    <script type="text/javascript" src="/static/js/lightbox-2.7.1/js/lightbox.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#demo-summernote').summernote({height: 250});
+            $('img.lazy').lazyload();
+
+            $('a.gtranslate').click(function () {
+                var obj = $(this);
+                var lang = obj.attr('data-lang');
+                var target = 'input[name="' + obj.attr('data-text') + '"]';
+                var text = $(target).attr('value');
+                ajaxPost('/api/translate/', {'text':text, 'lang':lang}, function(response){
+                    $(target).val(response.result);
+                });
+            });
+
+            $('.chosen-select').chosen();
+            $('.selectpicker').selectpicker();
+        });
+
+    </script>
+{% endblock %}
+{% block breadcrumb %}
+    <li class="active"><a href="#">首页</a></li>
+    <li class="active"><a href="#">抓取</a></li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">来源</h3>
+            </div>
+
+            <!--BUTTONS ADDONS-->
+            <!--===================================================-->
+            <form class="form-horizontal" method="post">
+                <div class="panel-body">
+                    <div class="input-group mar-btm">
+                        <div class="input-group-btn">
+                            <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button"
+                                    aria-expanded="false">网址 <i class="dropdown-caret fa fa-caret-down"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0);">1688</a>
+                                </li>
+                                <li><a href="javascript:void(0);">淘宝</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:void(0);">ebay</a>
+                                <li><a href="javascript:void(0);">aliexpress</a>
+                                <li><a href="javascript:void(0);">wish</a>
+                                <li><a href="javascript:void(0);">fancy</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {% csrf_token %}
+                        <input type="text" class="form-control" name="page" placeholder="输入要抓取的网址"
+                               value="{{ item.url }}">
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-danger btn-labeled fa fa-paw" type="submit">抓取</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!--===================================================-->
+            <!--END OF BUTTONS ADDONS-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">内容</h3>
+            </div>
+
+
+            <!--INPUT SIZE-->
+            <!--===================================================-->
+            <form method="post">
+
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 col-md-8">
+                        <div class="input-group mar-btm">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">标题</button>
+                            </span>
+                            <input class="form-control" type="text" placeholder="" value="{{ item.title }}">
+                        </div>
+                        <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">价格</button>
+                                </span>
+                            <input class="form-control" type="text" placeholder="" value="{{ item.price }}">
+                        </div>
+                        <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">货源</button>
+                                </span>
+                            <input class="form-control" type="text" placeholder="" value="{{ item.location }}">
+                        </div>
+                        <div class="input-group mar-btm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">运费</button>
+                                </span>
+                            <input class="form-control" type="text" placeholder="" value="{{ item.shipping }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <h5 class="control-label">描述</h5>
+
+                            <div id="demo-summernote" style="display: none;">{{ item.content|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="control-label">图片</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for image in item.get_image_list %}
+                        <div class="col-xs-4 col-sm-3 col-md-2">
+                            <div class="thumbnail">
+                                <a href="{{ image }}" data-lightbox="roadtrip">
+                                    <img class="lazy" src="{{ image }}" data-holder-rendered="true"#}
+                                         style="height: 100px; width: 100%; display: block;">
+                                </a>
+
+                                <div class="caption">
+                                    <label class="form-checkbox form-normal form-info">
+                                        <input type="checkbox"> 图片 {{ forloop.counter }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="panel-footer text-right">
+                <button class="btn btn-warning btn-labeled fa fa-save fa-lg" type="submit">保存</button>
+                <div class="btn-group">
+                    <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg dropdown-toggle"
+                            data-toggle="dropdown" type="button" aria-expanded="true">
+                        添加刊登 <i class="dropdown-caret fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#">ebay</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">即将支持</li>
+                        <li><a href="#">alixperess</a></li>
+                        <li><a href="#">wish</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            </form>
+            <!--===================================================-->
+            <!-- END OF INPUT SIZE  -->
+
+        </div>
+    </div>
+
+    {% load tags_ebay %}
+    {% listing_detail_ebay item %}
+
+{% endblock %}

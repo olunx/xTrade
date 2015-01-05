@@ -8,6 +8,8 @@ urlpatterns = patterns('',
     url(r'^hotstuff/', 'core.views.hot_stuff'),
     url(r'^scrapy/', 'core.views.scrap_page'),
     url(r'^listing/', 'core.views.listing_list'),
+    url(r'^listing-detail/', 'core.views.listing_detail'),
+    url(r'^api/translate/', 'core.utils.translate'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

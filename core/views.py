@@ -40,14 +40,13 @@ def scrap_page(request):
     page = request.GET.get('page')
     if not page:
         page = request.POST.get('page')
+    item = None
     if page:
         # alibabachina.scrap_page(page)
         try:
             item = AlibabachinaScrapy.objects.get(url=page)
         except AlibabachinaScrapy.DoesNotExist:
             pass
-    else:
-        item = None
     return render_to_response('scrapy.html', {'item': item},
                               context_instance=RequestContext(request))
 
@@ -55,4 +54,16 @@ def scrap_page(request):
 def listing_list(request):
     items = AlibabachinaScrapy.objects.all()
     return render_to_response('listing-list.html', {'items': items},
+                              context_instance=RequestContext(request))
+
+
+def listing_detail(request):
+    item_id = request.GET.get('id')
+    item = None
+    if id:
+        try:
+            item = AlibabachinaScrapy.objects.get(id=item_id)
+        except AlibabachinaScrapy.DoesNotExist:
+            pass
+    return render_to_response('listing-detail.html', {'item': item},
                               context_instance=RequestContext(request))

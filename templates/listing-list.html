@@ -63,11 +63,15 @@
                                     <div class="fht-cell"></div>
                                 </th>
                                 <th style="text-align: center; ">
-                                    <div class="th-inner sortable">操作</div>
+                                    <div class="th-inner sortable">来源</div>
                                     <div class="fht-cell"></div>
                                 </th>
                                 <th style="text-align: center; ">
-                                    <div class="th-inner sortable">操作</div>
+                                    <div class="th-inner sortable">发布站点</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner sortable">状态</div>
                                     <div class="fht-cell"></div>
                                 </th>
                             </tr>
@@ -76,27 +80,14 @@
                             {% for item in items %}
                                 <tr data-index="{{ forloop.counter }}">
                                 <td style="text-align: center;">{{ forloop.counter }}</td>
-                                <td style=""><a class="btn-link" href="/list-detail/?id={{ item.id }}" target="_blank">{{ item.title }}</a></td>
-                                <td style="text-align: center; ">发布</td>
+                                <td style=""><a class="btn-link" href="/listing-detail/?id={{ item.id }}" target="_blank">{{ item.title }}</a></td>
+                                <td style="text-align: center; ">1688</td>
                                 <td style="text-align: center; ">
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button" aria-expanded="false">
-                                            Dropdown <i class="dropdown-caret fa fa-caret-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li class="dropdown-header">Dropdown header</li>
-                                            <li><a href="#">Action</a>
-                                            </li>
-                                            <li><a href="#">Another action</a>
-                                            </li>
-                                            <li><a href="#">Something else here</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">Dropdown header</li>
-                                            <li><a href="#">Separated link</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <span class="label label-success ">ebay</span>
+                                    <span class="label label-danger ">aliexpress</span>
+                                </td>
+                                <td style="text-align: center; ">
+                                    <span class="label label-warning"> 未发布</span>
                                 </td>
                                 </tr>
                             {% endfor %}
