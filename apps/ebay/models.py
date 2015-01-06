@@ -3,6 +3,10 @@ __author__ = 'olunx'
 
 from django.db import models
 
+from core.models import ProductItem
+
+
+# 爬虫数据对象
 
 class EbayStuff(models.Model):
     item_id = models.CharField(max_length=30, unique=True, verbose_name='Ebay ID')
@@ -21,6 +25,30 @@ class EbayStuff(models.Model):
         return self.title
 
 
+# ebay刊登条目
+
+class EbayProductItem(ProductItem):
+    ebay_account = models.CharField(max_length=32, null=True, verbose_name='Account')
+    ebay_site_id = models.CharField(max_length=32, null=True, verbose_name='Site ID')
+    ebay_list_type = models.IntegerField(null=True, verbose_name='List Type')
+
+    ebay_cat_primary = models.CharField(max_length=32, null=True, verbose_name='Primary Category ID')
+    ebay_cat_secondary = models.CharField(max_length=32, null=True, verbose_name='Secondary Category ID')
+    store_cat_primary = models.CharField(max_length=32, null=True, verbose_name='Primary Store Category ID')
+    store_cat_secondary = models.CharField(max_length=32, null=True, verbose_name='Secondary Store Category ID')
+
+    ebay_quality = models.CharField(max_length=32, null=True, verbose_name='Quality')
+    ebay_duration = models.CharField(max_length=32, null=True, verbose_name='Duration')
+    ebay_item_location = models.CharField(max_length=32, null=True, verbose_name='Item Location')
+    ebay_item_country = models.CharField(max_length=32, null=True, verbose_name='Item Location')
+    ebay_item_postal = models.CharField(max_length=32, null=True, verbose_name='Item Postal')
+
+    def __unicode__(self):
+        return self.title
+
+
+#  原始ebay分类
+
 class EbayCategory(models.Model):
     cat_id = models.CharField(max_length=32, unique=True, verbose_name='Category ID')
     cat_parent_id = models.CharField(max_length=32, null=True, verbose_name='Category Parent ID')
@@ -33,6 +61,8 @@ class EbayCategory(models.Model):
     def __unicode__(self):
         return self.name
 
+
+# 前端ebay分类
 
 class EbayCategoryForm(models.Model):
     cat_id = models.CharField(max_length=32, unique=True, verbose_name='Category ID')

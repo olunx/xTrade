@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}抓取{% endblock %}
-{% block page_title %}抓取{% endblock %}
+{% block title %}刊登{% endblock %}
+{% block page_title %}刊登{% endblock %}
 {% block css %}
     <style type="text/css">
         .input-group-btn > .btn {
@@ -57,8 +57,9 @@
     </script>
 {% endblock %}
 {% block breadcrumb %}
-    <li class="active"><a href="#">首页</a></li>
-    <li class="active"><a href="#">抓取</a></li>
+    <li><a href="#">首页</a></li>
+    <li><a href="#">刊登</a></li>
+    <li class="active"><a href="#">详情</a></li>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -206,8 +207,5 @@
 
         </div>
     </div>
-
-    {% load tags_ebay %}
-    {% listing_detail_ebay item %}
 
 {% endblock %}

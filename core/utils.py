@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'olunx'
 
+import time
+import datetime
+
 from django_ajax.decorators import ajax
 import goslate
 
@@ -12,3 +15,7 @@ def translate(request):
     if text and lang:
         gs = goslate.Goslate()
         return {'result': gs.translate(text, lang)}
+
+
+def get_time_stamp():
+    return '%s%s' % (datetime.datetime.now().strftime('%Y%m%d%H%M%s'), time.clock())

@@ -9,7 +9,7 @@ class AlibabachinaScrapy(models.Model):
     url = models.CharField(max_length=256, null=True, verbose_name='URL')
     title = models.CharField(max_length=256, null=True, verbose_name='Title')
     content_url = models.TextField(null=True, verbose_name='Content')
-    content = models.TextField(null=True, verbose_name='Content')
+    content = models.TextField(null=True, verbose_name='Content URL')
     image = models.TextField(null=True, verbose_name='Image')
     location = models.CharField(max_length=30, null=True, verbose_name='Image')
     shipping = models.CharField(max_length=30, null=True, verbose_name='Shipping')

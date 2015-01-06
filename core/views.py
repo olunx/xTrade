@@ -67,3 +67,15 @@ def listing_detail(request):
             pass
     return render_to_response('listing-detail.html', {'item': item},
                               context_instance=RequestContext(request))
+
+
+def listing_detail_ebay(request):
+    item_id = request.GET.get('id')
+    item = None
+    if id:
+        try:
+            item = AlibabachinaScrapy.objects.get(id=item_id)
+        except AlibabachinaScrapy.DoesNotExist:
+            pass
+    return render_to_response('listing-detail.html', {'item': item},
+                              context_instance=RequestContext(request))
