@@ -117,3 +117,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # import os
 # sys.path.append('/Users/olunx/Documents/workspace/xSpider')
 # os.environ['SCRAPY_SETTINGS_MODULE'] = 'xspider.settings'
+
+#ebay api config file
+FILE_EBAY_API_CONFIG = '%s/ebay.yaml' % os.path.dirname(__file__)

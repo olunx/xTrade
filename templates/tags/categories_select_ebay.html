@@ -1,0 +1,9 @@
+<select class="chosen-select" style="width:60%;">
+    {% for key, values in items.items %}
+        <optgroup label="{{ key }}">
+        {% for value in values %}
+            <option value="{{ value.cat_id }}">{{ value.name }}</option>
+        {% endfor %}
+        </optgroup>
+    {% endfor %}
+</select>

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^listing/', 'core.views.listing_list'),
     url(r'^listing-detail/', 'core.views.listing_detail'),
     url(r'^api/translate/', 'core.utils.translate'),
+    url(r'^api/gen_category/', 'apps.ebay.views.gen_category'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

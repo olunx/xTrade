@@ -19,3 +19,27 @@ class EbayStuff(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class EbayCategory(models.Model):
+    cat_id = models.CharField(max_length=32, unique=True, verbose_name='Category ID')
+    cat_parent_id = models.CharField(max_length=32, null=True, verbose_name='Category Parent ID')
+    name = models.CharField(max_length=128, null=True, verbose_name='Category Name')
+    level = models.CharField(max_length=8, null=True, verbose_name='Category Level')
+    leaf = models.CharField(max_length=8, null=True, verbose_name='Category Leaf')
+    auto_pay = models.CharField(max_length=8, null=True, verbose_name='AutoPayEnabled')
+    best_offer = models.CharField(max_length=8, null=True, verbose_name='BestOfferEnabled')
+
+    def __unicode__(self):
+        return self.name
+
+
+class EbayCategoryForm(models.Model):
+    cat_id = models.CharField(max_length=32, unique=True, verbose_name='Category ID')
+    cat_name = models.CharField(max_length=128, null=True, verbose_name='Category Name')
+    name = models.CharField(max_length=512, null=True, verbose_name='Category Name')
+    auto_pay = models.CharField(max_length=8, null=True, verbose_name='AutoPayEnabled')
+    best_offer = models.CharField(max_length=8, null=True, verbose_name='BestOfferEnabled')
+
+    def __unicode__(self):
+        return self.name
