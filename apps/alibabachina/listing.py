@@ -17,7 +17,7 @@ ITEM_IMAGE = '//img/@src'
 ITEM_CONTENT_TEXT = '//p/node()'
 
 
-class ListingItem():
+class ListingScrap():
 
     def __init__(self):
         pass
@@ -82,7 +82,7 @@ class ListingItem():
                 item_id=core_utils.get_time_stamp(),
                 url=page,
                 title=title,
-                image=images,
+                images=images,
                 content=content_text,
                 content_url=content_url,
                 purchasing_price=price,
@@ -90,12 +90,14 @@ class ListingItem():
                 purchasing_shipping=shipping,
             )
             item.save()
+            return item.id
         else:
             item.title = title
-            item.image = images
+            item.images = images
             item.content = content_text
             item.content_url = content_url
             item.purchasing_price = price
             item.purchasing_location = location
             item.purchasing_shipping = shipping
             item.save()
+            return item.id

@@ -5,9 +5,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-import apps.alibabachina.views as alibabachina
-from apps.alibabachina.models import AlibabachinaScrapy
-from apps.ebay.models import EbayStuff
+from core.models import ProductItem
+from apps.alibabachina.listing import ListingScrap
+from apps.ebay.models import EbayStuff, EbayProductItem
 
 
 def home(request):
@@ -36,34 +36,27 @@ def hot_stuff(request):
                               context_instance=RequestContext(request))
 
 
-def scrap_page(request):
-    page = request.GET.get('page')
-    if not page:
-        page = request.POST.get('page')
-    item = None
-    if page:
-        # alibabachina.scrap_page(page)
-        try:
-            item = AlibabachinaScrapy.objects.get(url=page)
-        except AlibabachinaScrapy.DoesNotExist:
-            pass
-    return render_to_response('scrapy.html', {'item': item},
-                              context_instance=RequestContext(request))
-
-
 def listing_list(request):
-    items = AlibabachinaScrapy.objects.all()
+    items = ProductItem.objects.all()
     return render_to_response('listing-list.html', {'items': items},
                               context_instance=RequestContext(request))
 
 
 def listing_detail(request):
     item_id = request.GET.get('id')
+    page = request.POST.get('page')
     item = None
-    if id:
+    if item_id:
         try:
-            item = AlibabachinaScrapy.objects.get(id=item_id)
-        except AlibabachinaScrapy.DoesNotExist:
+            item = ProductItem.objects.get(id=item_id)
+        except ProductItem.DoesNotExist:
+            pass
+    if page:
+        scrap = ListingScrap()
+        item_id = scrap.scrap_page(page)
+        try:
+            item = ProductItem.objects.get(id=item_id)
+        except ProductItem.DoesNotExist:
             pass
     return render_to_response('listing-detail.html', {'item': item},
                               context_instance=RequestContext(request))
@@ -74,8 +67,8 @@ def listing_detail_ebay(request):
     item = None
     if id:
         try:
-            item = AlibabachinaScrapy.objects.get(id=item_id)
-        except AlibabachinaScrapy.DoesNotExist:
+            item = EbayProductItem.objects.get(id=item_id)
+        except EbayProductItem.DoesNotExist:
             pass
-    return render_to_response('listing-detail.html', {'item': item},
+    return render_to_response('listing-detail-ebay.html', {'item': item},
                               context_instance=RequestContext(request))
