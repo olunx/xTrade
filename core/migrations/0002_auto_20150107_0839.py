@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('alibabachina', '0001_initial'),
+        ('core', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='alibabachinascrapy',
-            name='content',
-            field=models.TextField(null=True, verbose_name=b'Content URL'),
+            model_name='productitem',
+            name='images',
+            field=models.TextField(null=True, verbose_name=b'Images'),
             preserve_default=True,
         ),
     ]

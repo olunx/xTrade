@@ -2,26 +2,7 @@
 {% block title %}刊登{% endblock %}
 {% block page_title %}刊登{% endblock %}
 {% block css %}
-    <style type="text/css">
-        .input-group-btn > .btn {
-            height: 32px;
-        }
-
-        .thumbnail .caption {
-            padding: 5px 0 5px 0;
-        }
-
-        .thumbnail .caption > label {
-            width: 100%;
-        }
-
-        .chosen-container {
-            margin-bottom: 0;
-        }
-        .chosen-container-single .chosen-single {
-            font-size: 12px;
-        }
-    </style>
+    <link href="/static/css/custom.css" rel="stylesheet">
     <link href="/static/js/lightbox-2.7.1/css/lightbox.css" rel="stylesheet">
 {% endblock %}
 {% block js %}
@@ -272,8 +253,7 @@
 
                     <div class="col-md-10">
                         <div class="input-group">
-                            <input class="form-control" type="text" name="title"
-                                   value="{{ item.title }}">
+                            <input class="form-control" type="text" name="ebay_title" value="{{ item.title }}">
 
                             <div class="input-group-btn">
                                 <button data-toggle="dropdown"
@@ -283,13 +263,10 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li class="dropdown-header">翻译</li>
-                                    <li><a href="javascript:void(0);" class="gtranslate"
-                                           data-text="ebay_title" data-lang="en">英语</a>
-                                    </li>
+                                    <li><a href="javascript:void(0);" class="gtranslate" data-text="title" data-lang="en">英语</a> </li>
                                     <li class="divider"></li>
                                     <li class="dropdown-header">工具</li>
-                                    <li><a href="javascript:void(0);">替换同义词</a>
-                                    </li>
+                                    <li><a href="javascript:void(0);">替换同义词</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -301,7 +278,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
                             <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                            <input type="text" class="form-control" name="ebay_retail_price" value="{{ item.retail_price }}">
+                            <input type="text" class="form-control" name="price" value="{{ item.price }}">
                         </div>
                     </div>
                 </div>
@@ -310,7 +287,7 @@
 
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
-                            <input type="email" class="form-control" name="ebay_quality" value="{{ item.ebay_quality }}">
+                            <input type="email" class="form-control" name="quality" value="{{ item.quality }}">
                             <span class="input-group-addon">Pics</span>
                         </div>
                     </div>
@@ -333,7 +310,7 @@
 
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
-                            <select class="selectpicker" data-live-search="false" name="ebay_duration">
+                            <select class="selectpicker" data-live-search="false" name="duration">
                                 <option value="Days_3">3 days</option>
                                 <option value="Days_5">5 days</option>
                                 <option value="Days_7">7 days</option>
@@ -348,14 +325,14 @@
                     <label class="col-md-2 control-label">物品所在地</label>
 
                     <div class="col-md-10">
-                        <input type="text" class="form-control" style="width: 220px;" name="ebay_item_location" value="{{ item.ebay_item_location }}">
+                        <input type="text" class="form-control" style="width: 220px;" name="item_location" value="{{ item.item_location }}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-2 control-label">国家或地区</label>
 
                     <div class="col-md-10">
-                        <select class="chosen-select" style="width:220px;" name="ebay_item_country">
+                        <select class="chosen-select" style="width:220px;" name="item_country">
                             <option selected="selected">中国</option>
                             <option>香港</option>
                         </select>
@@ -365,7 +342,7 @@
                     <label class="col-md-2 control-label">邮政编码</label>
 
                     <div class="col-md-10">
-                        <input type="text" class="form-control" style="width: 220px;" name="ebay_item_postal">
+                        <input type="text" class="form-control" style="width: 220px;" name="item_postal" value="{{ item.item_postal }}">
                     </div>
                 </div>
 
@@ -465,7 +442,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
                             <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                            <input type="text" class="form-control" value="0.00">
+                            <input type="text" class="form-control" name="shipping_internal_cost" value="{{ item.shipping_internal_cost }}">
                         </div>
                     </div>
                 </div>
@@ -475,7 +452,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
                             <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                            <input type="text" class="form-control" value="0.00">
+                            <input type="text" class="form-control" name="shipping_internal_additional_cost" value="{{ item.shipping_internal_additional_cost }}">
                         </div>
                     </div>
                 </div>
@@ -524,7 +501,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
                             <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                            <input type="text" class="form-control" value="3.00">
+                            <input type="text" class="form-control" name="shipping_international_cost" value="{{ item.shipping_international_cost }}">
                         </div>
                     </div>
                 </div>
@@ -534,7 +511,7 @@
                     <div class="col-md-10">
                         <div class="input-group" style="width: 220px;">
                             <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                            <input type="text" class="form-control" value="0.00">
+                            <input type="text" class="form-control" name="shipping_international_additional_cost" value="{{ item.shipping_international_additional_cost }}">
                         </div>
                     </div>
                 </div>
@@ -542,7 +519,7 @@
                     <label class="col-md-2 control-label">运送范围</label>
 
                     <div class="col-md-10">
-                        <input type="text" class="form-control" style="width: 220px;" value="Worldwide">
+                        <input type="text" class="form-control" style="width: 220px;" name="shipping_international_area" value="{{ item.shipping_international_area }}">
                     </div>
                 </div>
 
@@ -633,16 +610,15 @@
                     工具 <i class="dropdown-caret fa fa-caret-down"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#">ebay</a>
+                    <li><a href="javascript:void(0)" onclick="gen_category()">刷新目录</a></li>
                     </li>
                     <li class="divider"></li>
                     <li class="dropdown-header">即将支持</li>
-                    <li><a href="javascript:void(0)" onclick="gen_category()">生成目录</a></li>
                     <li><a href="#">wish</a></li>
                 </ul>
             </div>
-            <button class="btn btn-warning btn-labeled fa fa-save fa-lg" type="submit">保存</button>
-            <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg" type="submit">立即刊登</button>
+            <button class="btn btn-warning btn-labeled fa fa-save fa-lg" type="button">保存</button>
+            <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg" type="button">立即刊登</button>
         </div>
 
     </div>

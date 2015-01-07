@@ -80,11 +80,12 @@
                             {% for item in items %}
                                 <tr data-index="{{ forloop.counter }}">
                                 <td style="text-align: center;">{{ forloop.counter }}</td>
-                                <td style=""><a class="btn-link" href="/listing-detail/?id={{ item.id }}" target="_blank">{{ item.title }}</a></td>
+                                <td style=""><a class="btn-link" href="/listing/detail/{{ item.id }}/" target="_self">{{ item.title }}</a></td>
                                 <td style="text-align: center; ">1688</td>
                                 <td style="text-align: center; ">
-                                    <span class="label label-success ">ebay</span>
-                                    <span class="label label-danger ">aliexpress</span>
+                                    {% for ebay in item.ebayproductitem_set.all %}
+                                        <a class="label label-success" href="/listing/detail/ebay/{{ ebay.id }}/">{{ ebay.ebay_account }}</a>
+                                    {% endfor %}
                                 </td>
                                 <td style="text-align: center; ">
                                     <span class="label label-warning"> 未发布</span>
