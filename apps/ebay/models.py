@@ -60,15 +60,8 @@ class EbayProductItem(models.Model):
 
     item_id = models.CharField(max_length=16, null=True, verbose_name='Item ID')
 
-    title = models.CharField(max_length=128, null=True, verbose_name='Title')
-    subtitle = models.CharField(max_length=128, null=True, verbose_name='Subtitle')
-    describe = models.TextField(null=True, verbose_name='Describe')
-    images = models.TextField(null=True, verbose_name='Images')
-
-    price = models.CharField(max_length=30, null=True, verbose_name='Price')
-
     account = models.CharField(max_length=32, null=True, verbose_name='Account')
-    site_id = models.CharField(max_length=32, null=True, verbose_name='Site ID')
+    site_id = models.CharField(max_length=32, null=True, verbose_name='Site ID', default='0')
     list_type = models.IntegerField(null=True, verbose_name='List Type')
 
     ebay_cat_primary = models.CharField(max_length=32, null=True, verbose_name='Primary Category ID')
@@ -76,11 +69,17 @@ class EbayProductItem(models.Model):
     store_cat_primary = models.CharField(max_length=32, null=True, verbose_name='Primary Store Category ID')
     store_cat_secondary = models.CharField(max_length=32, null=True, verbose_name='Secondary Store Category ID')
 
-    quality = models.CharField(max_length=32, null=True, verbose_name='Quality')
-    duration = models.CharField(max_length=32, null=True, verbose_name='Duration')
-    item_location = models.CharField(max_length=32, null=True, verbose_name='Item Location')
-    item_country = models.CharField(max_length=32, null=True, verbose_name='Item Location')
-    item_postal = models.CharField(max_length=32, null=True, verbose_name='Item Postal')
+    title = models.CharField(max_length=128, null=True, verbose_name='Title')
+    subtitle = models.CharField(max_length=128, null=True, verbose_name='Subtitle')
+    describe = models.TextField(null=True, verbose_name='Describe')
+    images = models.TextField(null=True, verbose_name='Images')
+    price = models.CharField(max_length=30, null=True, verbose_name='Price', default='0.00')
+
+    quality = models.CharField(max_length=32, null=True, verbose_name='Quality', default='3')
+    duration = models.CharField(max_length=32, null=True, verbose_name='Duration', default='GTC')
+    item_location = models.CharField(max_length=32, null=True, verbose_name='Item Location', default='Shenzhen')
+    item_country = models.CharField(max_length=32, null=True, verbose_name='Item Country', default='China')
+    item_postal = models.CharField(max_length=32, null=True, verbose_name='Item Postal', default='518000')
 
     payment_method = models.CharField(max_length=128, null=True, verbose_name='Payment Method')
     payment_account = models.CharField(max_length=128, null=True, verbose_name='Payment Account')
@@ -89,7 +88,7 @@ class EbayProductItem(models.Model):
     shipping_internal_type = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Type')
     shipping_international_type = models.CharField(max_length=128, null=True, verbose_name='Shipping International Type')
 
-    dispatch_time_max = models.CharField(max_length=4, null=True, verbose_name='Dispatch Time Max')
+    dispatch_time_max = models.CharField(max_length=4, null=True, verbose_name='Dispatch Time Max', default='2')
 
     shipping_internal_service = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Service')
     shipping_internal_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Cost', default='0.00')

@@ -1,0 +1,19 @@
+.input-group-btn > .btn {
+    height: 32px;
+}
+
+.thumbnail .caption {
+    padding: 5px 0 5px 0;
+}
+
+.thumbnail .caption > label {
+    width: 100%;
+}
+
+.chosen-container {
+    margin-bottom: 0;
+}
+
+.chosen-container-single .chosen-single {
+    font-size: 12px;
+}

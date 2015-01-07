@@ -84,7 +84,7 @@
                                 <td style="text-align: center; ">1688</td>
                                 <td style="text-align: center; ">
                                     {% for ebay in item.ebayproductitem_set.all %}
-                                        <a class="label label-success" href="/listing/detail/ebay/{{ ebay.id }}/">{{ ebay.ebay_account }}</a>
+                                        <a class="label label-success" href="/listing/detail/ebay/{{ ebay.id }}/">{{ ebay.account }}</a>
                                     {% endfor %}
                                 </td>
                                 <td style="text-align: center; ">

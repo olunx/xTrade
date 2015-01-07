@@ -8,8 +8,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django_ajax.decorators import ajax
 
 from core.models import ProductItem
+from core.forms import ProductItemForm
 from apps.alibabachina.listing import ListingScrap
 from apps.ebay.models import EbayStuff, EbayProductItem
+from apps.ebay.forms import EbayProductItemForm
 
 
 def home(request):
@@ -66,22 +68,39 @@ def listing_detail_create(request):
     return redirect('/listing/detail/%s/' % item_id)
 
 
+# @ajax
+# def listing_detail_save(request):
+#     result = 'failed'
+#     item_id = request.POST.get('id')
+#     if item_id:
+#         try:
+#             item = ProductItem.objects.get(id=item_id)
+#         except ProductItem.DoesNotExist:
+#             result = 'failed'
+#         else:
+#             item.title = request.POST.get('title')
+#             item.purchasing_price = request.POST.get('purchasing_price')
+#             item.purchasing_location = request.POST.get('purchasing_location')
+#             item.purchasing_shipping = request.POST.get('purchasing_shipping')
+#             item.save()
+#             result = 'succeed'
+#     return {'result': result}
+
+
 @ajax
 def listing_detail_save(request):
-    item_id = request.POST.get('id')
     result = 'failed'
+    item_id = request.POST.get('id')
     if item_id:
         try:
             item = ProductItem.objects.get(id=item_id)
         except ProductItem.DoesNotExist:
             result = 'failed'
         else:
-            item.title = request.POST.get('title')
-            item.purchasing_price = request.POST.get('purchasing_price')
-            item.purchasing_location = request.POST.get('purchasing_location')
-            item.purchasing_shipping = request.POST.get('purchasing_shipping')
-            item.save()
-            result = 'succeed'
+            form = ProductItemForm(request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+                result = 'succeed'
     return {'result': result}
 
 
@@ -103,16 +122,32 @@ def listing_detail_ebay_create(request):
     if item_id:
         # 保存
         item = ProductItem.objects.get(id=item_id)
-        item.title = request.POST.get('title')
-        item.purchasing_price = request.POST.get('purchasing_price')
-        item.purchasing_location = request.POST.get('purchasing_location')
-        item.purchasing_shipping = request.POST.get('purchasing_shipping')
-        item.save()
+        form = ProductItemForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+        else:
+            print('ProductItemForm save failed.')
         # 新建
         ebay_item = EbayProductItem(product_item=item)
         ebay_item.title = item.title
         ebay_item.describe = item.content
         ebay_item.images = item.images
         ebay_item.save()
-
     return redirect('/listing/detail/ebay/%s/' % ebay_item.id)
+
+
+@ajax
+def listing_detail_ebay_save(request):
+    result = 'failed'
+    item_id = request.POST.get('id')
+    if item_id:
+        try:
+            item = EbayProductItem.objects.get(id=item_id)
+        except EbayProductItem.DoesNotExist:
+            result = 'failed'
+        else:
+            form = EbayProductItemForm(request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+                result = 'succeed'
+    return {'result': result}

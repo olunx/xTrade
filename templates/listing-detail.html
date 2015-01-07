@@ -33,7 +33,7 @@
                 });
             });
         }
-        function list_ebay() {
+        function list_ebay_create() {
             var data = $('#main-form').serializeJSON();
             ajaxPost('/listing/detail/ebay/create/', data);
         }
@@ -117,7 +117,7 @@
                             <label class="col-md-2 control-label">描述</label>
 
                             <div class="col-md-10">
-                                <div id="demo-summernote" style="display: none;">{{ item.content|safe }}</div>
+                                <textarea id="demo-summernote" style="display: none;" name="content">{{ item.content|safe }}</textarea>
                             </div>
                         </div>
                         <h5 class="control-label" style="text-align: left;">图片</h5>
@@ -148,7 +148,7 @@
                             添加刊登 <i class="dropdown-caret fa fa-caret-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="javascript:void(0)" onclick="list_ebay()">ebay</a></li>
+                            <li><a href="javascript:void(0)" onclick="list_ebay_create()">ebay</a></li>
                         </ul>
                     </div>
                 </div>
