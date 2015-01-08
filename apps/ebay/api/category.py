@@ -14,15 +14,16 @@ from django.conf import settings
 
 def fetch_categories():
     try:
-        api = Trading(domain='api.sandbox.ebay.com', config_file=settings.FILE_EBAY_API_CONFIG, warnings=True, timeout=20, siteid=101)
+        api = Trading(domain='api.sandbox.ebay.com', config_file=settings.FILE_EBAY_API_CONFIG, warnings=True, timeout=1000, siteid=0)
 
-        callData = {
+        data = {
             'DetailLevel': 'ReturnAll',
             'CategorySiteID': 0,
             'LevelLimit': 4,
         }
 
-        api.execute('GetCategories', callData)
+        api.execute('GetCategories', data)
+
         result = api.response.json()
         result = json.loads(result)
         category = result.get('CategoryArray').get('Category')
@@ -42,6 +43,8 @@ def fetch_categories():
                 item.save()
             else:
                 pass
+
+        print(api.response.json())
 
     except ConnectionError as e:
         print(e)

@@ -63,7 +63,7 @@ class EbayProductItem(models.Model):
 
     account = models.CharField(max_length=32, null=True, verbose_name='Account')
     site_id = models.CharField(max_length=32, null=True, verbose_name='Site ID', default='0')
-    list_type = models.IntegerField(null=True, verbose_name='List Type')
+    list_type = models.CharField(max_length=32, null=True, verbose_name='List Type', default='FixedPriceItem')
 
     ebay_cat_primary = models.CharField(max_length=32, null=True, verbose_name='Primary Category ID')
     ebay_cat_secondary = models.CharField(max_length=32, null=True, verbose_name='Secondary Category ID')
@@ -98,7 +98,7 @@ class EbayProductItem(models.Model):
 
     shipping_international_service = models.CharField(max_length=128, null=True, verbose_name='Shipping International Service')
     shipping_international_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping International Cost', default='3.00')
-    shipping_international_additional_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping International Additional Cost', default='2.00')
+    shipping_international_additional_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping International Additional Cost', default='0.00')
     shipping_international_area = models.CharField(max_length=128, null=True, verbose_name='Shipping International Area', default='Worldwide')
 
     def get_image_list(self):

@@ -12,6 +12,7 @@ from core.forms import ProductItemForm
 from apps.alibabachina.listing import ListingScrap
 from apps.ebay.models import EbayStuff, EbayProductItem
 from apps.ebay.forms import EbayProductItemForm
+from apps.ebay.api import listing
 
 
 def home(request):
@@ -146,4 +147,14 @@ def listing_detail_ebay_save(request):
             if form.is_valid():
                 form.save()
                 result = 'succeed'
+    return {'result': result}
+
+
+@ajax
+def listing_detail_ebay_post(request):
+    result = 'failed'
+    item_id = request.POST.get('id')
+    if item_id:
+        listing.add_fixed_price_item(listing.gen_data_by_item(item_id))
+        result = 'succeed'
     return {'result': result}

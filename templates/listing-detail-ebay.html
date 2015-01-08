@@ -69,6 +69,28 @@
             });
         }
 
+        function list_ebay_post() {
+            $('#summernote').val($('#summernote').code());
+            var data = $('#main-form').serializeJSON();
+
+            //未选择的图片
+            var images = new Array();
+            $.each($('input[rel="images"]:not(:checked)'), function () {
+                images.push($(this).val());
+            });
+            data['images'] = JSON.stringify(images);
+
+            //已选择的图片
+            var images_checked = new Array();
+            $.each($('input[rel="images"]:checked'), function () {
+                images_checked.push($(this).val());
+            });
+            data['images_checked'] = JSON.stringify(images_checked);
+            ajaxPost('/listing/detail/ebay/post/', data, function(response){
+
+            });
+        }
+
         $(document).ready(function () {
             $('#summernote').summernote({height: 250});
             $('img.lazy').lazyload();
@@ -159,11 +181,11 @@
                             <div class="col-md-10">
                                 <div class="radio">
                                     <label class="form-radio form-normal active">
-                                        <input type="radio" name="list_type" value="1"> 拍卖
+                                        <input type="radio" name="list_type" value="Chinese"> 拍卖
                                     </label>
 
                                     <label class="form-radio form-normal">
-                                        <input type="radio" checked="" name="list_type" value="2"> 固价
+                                        <input type="radio" checked="" name="list_type" value="FixedPriceItem"> 固价
                                     </label>
 
                                     <label class="form-radio form-normal">
@@ -719,7 +741,7 @@
                         </ul>
                     </div>
                     <button class="btn btn-warning btn-labeled fa fa-save fa-lg" type="button" onclick="list_ebay_save()">保存</button>
-                    <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg" type="button">立即刊登</button>
+                    <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg" type="button" onclick="list_ebay_post()">立即刊登</button>
                 </div>
             </form>
             <!--===================================================-->
