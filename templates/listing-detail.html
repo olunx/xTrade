@@ -4,6 +4,21 @@
 {% block css %}
     <link href="/static/css/custom.css" rel="stylesheet">
     <link href="/static/js/lightbox-2.7.1/css/lightbox.css" rel="stylesheet">
+    <link href="/static/js/jquery-ui-1.11.2.custom/jquery-ui.min.css" rel="stylesheet">
+    <link href="/static/js/jquery-ui-1.11.2.custom/jquery-ui.theme.min.css" rel="stylesheet">
+    <style type="text/css">
+        #images {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #images li {
+            margin: 3px;
+            padding: 0;
+            float: left;
+        }
+    </style>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="/static/js/jquery.serializeJSON-2.4.1/jquery.serializejson.min.js"></script>
@@ -11,25 +26,44 @@
     <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax.min.js"></script>
     <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax-plugin.min.js"></script>
     <script type="text/javascript" src="/static/js/lightbox-2.7.1/js/lightbox.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
     <script type="text/javascript">
-        function list_create(){
+        function list_create() {
             var data = $('#main-form').serializeJSON();
             ajaxPost('/listing/detail/create/', data);
         }
         function list_save() {
+            $('#summernote').val($('#summernote').code());
             var data = $('#main-form').serializeJSON();
-            ajaxPost('/listing/detail/save/', data, function(response){
+
+            //未选择的图片
+            var images = new Array();
+            $.each($('input[rel="images"]:not(:checked)'), function () {
+                images.push($(this).val());
+            });
+            data['images'] = JSON.stringify(images);
+
+            //已选择的图片
+            var images_checked = new Array();
+            $.each($('input[rel="images"]:checked'), function () {
+                images_checked.push($(this).val());
+            });
+            data['images_checked'] = JSON.stringify(images_checked);
+
+{#            alert(JSON.stringify(data));#}
+
+            ajaxPost('/listing/detail/save/', data, function (response) {
                 var dataType = 'danger';
                 var htmlData = '<strong><li class="fa fa-frown-o"></li> 保存失败!</strong> 出现未知错误，请联系管理员！';
-                if(response.result == 'succeed'){
+                if (response.result == 'succeed') {
                     dataType = 'success';
                     htmlData = '<strong><li class="fa fa-smile-o"></li> 保存成功!</strong>';
                 }
                 $.niftyNoty({
                     type: dataType,
-                    container : 'page',
-                    html : htmlData,
-                    timer : 5000
+                    container: 'page',
+                    html: htmlData,
+                    timer: 5000
                 });
             });
         }
@@ -39,11 +73,12 @@
         }
 
         $(document).ready(function () {
-            $('#demo-summernote').summernote({height: 250});
+            $('#summernote').summernote({height: 250});
             $('img.lazy').lazyload();
 
             $('.chosen-select').chosen();
             $('.selectpicker').selectpicker();
+            $('#images').sortable();
         });
 
     </script>
@@ -65,6 +100,7 @@
             <!--===================================================-->
             <form method="post" id="main-form">
                 <input type="hidden" name="id" value="{{ item.id }}">
+
                 <div class="panel-body form-horizontal">
                     <div class="col-md-12">
                         <h5 class="control-label" style="text-align: left;">来源</h5>
@@ -117,28 +153,48 @@
                             <label class="col-md-2 control-label">描述</label>
 
                             <div class="col-md-10">
-                                <textarea id="demo-summernote" style="display: none;" name="content">{{ item.content|safe }}</textarea>
+                                <textarea id="summernote" style="display: none;" name="content">{{ item.content|safe }}</textarea>
                             </div>
                         </div>
-                        <h5 class="control-label" style="text-align: left;">图片</h5>
-                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">图片</label>
+
+                            <div class="col-md-10">
+                                <ul id="images">
+                                    {% for image in item.get_image_checked_list %}
+                                        <li>
+                                            <div class="thumbnail" style="margin-bottom: 5px;">
+                                                <a href="{{ image }}" data-lightbox="roadtrip">
+                                                    <img class="lazy" src="{{ image }}" data-holder-rendered="true" style="height: 120px; width: 130px; display: block;">
+                                                </a>
+
+                                                <div class="caption">
+                                                    <label class="form-checkbox form-normal form-info">
+                                                        <input type="checkbox" rel="images" value="{{ image }}" checked=""> 图片 {{ forloop.counter }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                    {% for image in item.get_image_list %}
+                                        <li>
+                                            <div class="thumbnail" style="margin-bottom: 5px;">
+                                                <a href="{{ image }}" data-lightbox="roadtrip">
+                                                    <img class="lazy" src="{{ image }}" data-holder-rendered="true" style="height: 120px; width: 130px; display: block;">
+                                                </a>
+
+                                                <div class="caption">
+                                                    <label class="form-checkbox form-normal form-info">
+                                                        <input type="checkbox" rel="images" value="{{ image }}"> 图片 {{ item.get_image_checked_list|length|add:forloop.counter }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
-                    {% for image in item.get_image_list %}
-                        <div class="col-xs-4 col-sm-3 col-md-2">
-                            <div class="thumbnail">
-                                <a href="{{ image }}" data-lightbox="roadtrip">
-                                    <img class="lazy" src="{{ image }}" data-holder-rendered="true" style="height: 100px; width: 100%; display: block;">
-                                </a>
-
-                                <div class="caption">
-                                    <label class="form-checkbox form-normal form-info">
-                                        <input type="checkbox"> 图片 {{ forloop.counter }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
                 </div>
 
                 <div class="panel-footer text-right">

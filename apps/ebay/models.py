@@ -4,6 +4,7 @@ __author__ = 'olunx'
 from django.db import models
 
 from core.models import ProductItem
+import core.utils as utils
 
 
 # 爬虫数据对象
@@ -73,6 +74,7 @@ class EbayProductItem(models.Model):
     subtitle = models.CharField(max_length=128, null=True, verbose_name='Subtitle')
     describe = models.TextField(null=True, verbose_name='Describe')
     images = models.TextField(null=True, verbose_name='Images')
+    images_checked = models.TextField(null=True, verbose_name='Images Checked')
     price = models.CharField(max_length=30, null=True, verbose_name='Price', default='0.00')
 
     quality = models.CharField(max_length=32, null=True, verbose_name='Quality', default='3')
@@ -98,6 +100,12 @@ class EbayProductItem(models.Model):
     shipping_international_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping International Cost', default='3.00')
     shipping_international_additional_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping International Additional Cost', default='2.00')
     shipping_international_area = models.CharField(max_length=128, null=True, verbose_name='Shipping International Area', default='Worldwide')
+
+    def get_image_list(self):
+        return utils.get_image_list(self.images)
+
+    def get_image_checked_list(self):
+        return utils.get_image_list(self.images_checked)
 
     def __unicode__(self):
         return self.title

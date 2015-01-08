@@ -132,6 +132,7 @@ def listing_detail_ebay_create(request):
         ebay_item.title = item.title
         ebay_item.describe = item.content
         ebay_item.images = item.images
+        ebay_item.images_checked = item.images_checked
         ebay_item.save()
     return redirect('/listing/detail/ebay/%s/' % ebay_item.id)
 

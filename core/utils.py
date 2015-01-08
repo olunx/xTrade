@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'olunx'
 
+import ast
 import time
 import datetime
 
@@ -19,3 +20,10 @@ def translate(request):
 
 def get_time_stamp():
     return '%s%s' % (datetime.datetime.now().strftime('%Y%m%d%H%M%s'), time.clock())
+
+
+def get_image_list(images):
+    data = []
+    if images:
+        data = ast.literal_eval(images)
+    return list(set(data))

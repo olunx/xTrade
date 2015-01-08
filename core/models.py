@@ -3,6 +3,8 @@
 import ast
 from django.db import models
 
+import core.utils as utils
+
 
 class ProductItem(models.Model):
     item_id = models.CharField(max_length=64, unique=True, verbose_name='Item ID')
@@ -11,6 +13,7 @@ class ProductItem(models.Model):
     content = models.TextField(null=True, verbose_name='Content')
     content_url = models.TextField(null=True, verbose_name='Content URL')
     images = models.TextField(null=True, verbose_name='Images')
+    images_checked = models.TextField(null=True, verbose_name='Images Checked')
 
     purchasing_location = models.CharField(max_length=30, null=True, verbose_name='Purchasing Location')
     purchasing_price = models.CharField(max_length=30, null=True, verbose_name='Purchasing Price')
@@ -32,10 +35,10 @@ class ProductItem(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Create Time')
 
     def get_image_list(self):
-        data = []
-        if self.images:
-            data = ast.literal_eval(self.images)
-        return list(set(data))
+        return utils.get_image_list(self.images)
+
+    def get_image_checked_list(self):
+        return utils.get_image_list(self.images_checked)
 
     def __unicode__(self):
         return self.title
