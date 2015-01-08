@@ -111,7 +111,7 @@
                             <div class="col-md-10">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="page" placeholder="输入要抓取的网址"
-                                           value="{{ item.url }}">
+                                           value="{{ item.url }}" {% if item %}disabled=""{% endif %}>
 
                                     <div class="input-group-btn">
                                         <button class="btn btn-danger btn-labeled fa fa-paw" type="button" onclick="list_create()">抓取</button>

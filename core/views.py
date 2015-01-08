@@ -41,7 +41,16 @@ def hot_stuff(request):
 
 
 def listing_list(request):
-    items = ProductItem.objects.all().prefetch_related('ebayproductitem_set')
+    page = request.GET.get('page')
+    items_list = ProductItem.objects.all().prefetch_related('ebayproductitem_set')
+
+    paginator = Paginator(items_list, 25)
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
     return render_to_response('listing-list.html', {'items': items},
                               context_instance=RequestContext(request))
 
@@ -58,6 +67,11 @@ def listing_detail(request, item_id):
                               context_instance=RequestContext(request))
 
 
+def listing_detail_new(request):
+    return render_to_response('listing-detail.html',
+                              context_instance=RequestContext(request))
+
+
 @ajax
 def listing_detail_create(request):
     page = request.POST.get('page')
@@ -66,25 +80,6 @@ def listing_detail_create(request):
         scrap = ListingScrap()
         item_id = scrap.scrap_page(page)
     return redirect('/listing/detail/%s/' % item_id)
-
-
-# @ajax
-# def listing_detail_save(request):
-#     result = 'failed'
-#     item_id = request.POST.get('id')
-#     if item_id:
-#         try:
-#             item = ProductItem.objects.get(id=item_id)
-#         except ProductItem.DoesNotExist:
-#             result = 'failed'
-#         else:
-#             item.title = request.POST.get('title')
-#             item.purchasing_price = request.POST.get('purchasing_price')
-#             item.purchasing_location = request.POST.get('purchasing_location')
-#             item.purchasing_shipping = request.POST.get('purchasing_shipping')
-#             item.save()
-#             result = 'succeed'
-#     return {'result': result}
 
 
 @ajax

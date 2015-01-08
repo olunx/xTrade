@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^listing/$', 'core.views.listing_list'),
 
     url(r'^listing/detail/(\d+)/$', 'core.views.listing_detail'),
+    url(r'^listing/detail/new/$', 'core.views.listing_detail_new'),
     url(r'^listing/detail/create/$', 'core.views.listing_detail_create'),
     url(r'^listing/detail/save/$', 'core.views.listing_detail_save'),
 
