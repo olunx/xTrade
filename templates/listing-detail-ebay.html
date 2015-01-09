@@ -27,8 +27,7 @@
     <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax-plugin.min.js"></script>
     <script type="text/javascript" src="/static/js/lightbox-2.7.1/js/lightbox.min.js"></script>
     <script type="text/javascript" src="/static/js/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/static/js/utils.js"></script>
-    <script type="text/javascript" src="/static/js/form-validation.js"></script>
+    <script type="text/javascript" src="/static/js/ebay-utils.js"></script>
     <script type="text/javascript">
         function gen_category() {
             ajaxPost('/api/gen_category/', function (response) {
@@ -50,7 +49,7 @@
                 ]
             });
             $(".note-toolbar").append('<div class="note-style btn-group">' +
-            '<button type="button" class="btn btn-default btn-sm btn-small" title="" tabindex="-1" data-original-title="Translate">' +
+            '<button type="button" class="btn btn-default btn-sm btn-small" title="Translate" tabindex="-1" onclick="translateContent()">' +
             '<i class="fa fa-magic"></i></button></div>');
             $('img.lazy').lazyload();
 
@@ -73,7 +72,13 @@
             $('button#btn-save').click(function () {
                 var btn = $(this);
                 btn.button('loading');
-                var data = pack_data();
+                //表单检查
+                if(!formValidate()) {
+                    btn.button('reset');
+                    return;
+                }
+                //表单提交
+                var data = formData();
 {#            alert(JSON.stringify(data));#}
                 ajaxPost('/listing/detail/ebay/save/', data, function(response){
                     var dataType = 'danger';
@@ -96,7 +101,13 @@
             $('button#btn-list').click(function () {
                 var btn = $(this);
                 btn.button('loading');
-                var data = pack_data();
+                //表单检查
+                if(!formValidate()) {
+                    btn.button('reset');
+                    return;
+                }
+                //表单提交
+                var data = formData();
                 ajaxPost('/listing/detail/ebay/list/', data, function(response){
                     var dataType = 'danger';
                     var htmlData = '<strong><li class="fa fa-frown-o"></li> 刊登失败!</strong> 出现未知错误，请联系管理员！';

@@ -2,6 +2,48 @@
  * Created by olunx on 15/1/9.
  */
 
+function formValidate() {
+    var form = $('#main-form');
+    form.data('bootstrapValidator').validate();
+    if (!form.data('bootstrapValidator').isValid()) {
+        $.niftyNoty({
+            type: 'danger',
+            container: 'page',
+            html: '<strong><li class="fa fa-frown-o"></li> 操作失败!</strong> 请检查标红的内容！',
+            timer: 10000
+        });
+        return false;
+    }
+    return true;
+}
+
+function formData() {
+    $('#summernote').val($('#summernote').code());
+    var data = $('#main-form').serializeJSON();
+
+    //未选择的图片
+    var images = new Array();
+    $.each($('input[rel="images"]:not(:checked)'), function () {
+        images.push($(this).val());
+    });
+    data['images'] = JSON.stringify(images);
+
+    //已选择的图片
+    var images_checked = new Array();
+    $.each($('input[rel="images"]:checked'), function () {
+        images_checked.push($(this).val());
+    });
+    data['images_checked'] = JSON.stringify(images_checked);
+    return data;
+}
+
+function translateContent() {
+    var text = $('#summernote').code();
+    ajaxPost('/api/translate/', {'text': text, 'lang': 'en'}, function (response) {
+        $('#summernote').code(response.result);
+    });
+}
+
 $(document).ready(function () {
 
     // Feedback Icons
@@ -51,35 +93,36 @@ $(document).ready(function () {
                     notEmpty: {
                         message: 'The quality is required and can\'t be empty'
                     },
-                    integer: {
-                        message: 'The value is not a number'
+                    greaterThan: {
+                        value: 1,
+                        message: 'The value must be greater than 0'
                     }
                 }
             },
             price: {
                 validators: {
                     notEmpty: {
-                        message: 'The price is required and can\'t be empty'
+                        message: 'The value is required and can\'t be empty'
                     },
-                    numeric: {
-                        message: 'The value is not a number'
+                    greaterThan: {
+                        value: 0.01,
+                        message: 'The price must be greater than 0.01'
                     }
                 }
             },
             item_postal: {
                 validators: {
                     integer: {
-                        message: 'The value is not a number'
+                        message: 'The value must larger than 0'
                     }
                 }
             }
         }
-    }).on('success.field.bv', function (e, data) {
+    }).on('err.form.fv', function (e, data) {
         // $(e.target)  --> The field element
         // data.bv      --> The BootstrapValidator instance
         // data.field   --> The field name
         // data.element --> The field element
-
         var $parent = data.element.parents('.form-group');
 
         // Remove the has-success class

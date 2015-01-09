@@ -94,7 +94,7 @@ class EbayProductItem(models.Model):
 
     shipping_internal_service = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Service')
     shipping_internal_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Cost', default='0.00')
-    shipping_internal_additional_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Additional Cost', default='2.00')
+    shipping_internal_additional_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Additional Cost', default='0.00')
 
     shipping_international_service = models.CharField(max_length=128, null=True, verbose_name='Shipping International Service')
     shipping_international_cost = models.CharField(max_length=128, null=True, verbose_name='Shipping International Cost', default='3.00')
