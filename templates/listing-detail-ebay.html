@@ -37,7 +37,21 @@
         }
 
         $(document).ready(function () {
-            $('#summernote').summernote({height: 250});
+            $('#summernote').summernote({
+                height: 250,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['table', ['table']]
+                ]
+            });
+            $(".note-toolbar").append('<div class="note-style btn-group">' +
+            '<button type="button" class="btn btn-default btn-sm btn-small" title="" tabindex="-1" data-original-title="Translate">' +
+            '<i class="fa fa-magic"></i></button></div>');
             $('img.lazy').lazyload();
 
             $('.chosen-select').chosen();
@@ -92,7 +106,7 @@
                     }else if(response.result == 'warning'){
                         dataType = 'warning';
                         htmlData = '<strong><li class="fa fa-smile-o"></li> 刊登成功！</strong> ' + response.url + response.msg;
-                    }else if(response.result == 'fail'){
+                    }else if(response.result == 'failure'){
                         dataType = 'danger';
                         htmlData = '<strong><li class="fa fa-smile-o"></li> 刊登失败！</strong> ' + response.url + response.msg;
                     }

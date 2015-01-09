@@ -67,6 +67,7 @@
                                         {% if item.ebayproductitem_set.count > 0 %}
                                             {% for ebay in item.ebayproductitem_set.all %}
                                                 <a class="label label-success" href="/listing/detail/ebay/{{ ebay.id }}/">{{ ebay.account }}</a>
+                                                {% if ebay.item_id %}<a target="_blank" href="http://cgi.sandbox.ebay.com/ws/eBayISAPI.dll?ViewItem&item={{ ebay.item_id }}">{{ ebay.item_id }}</a>{% endif %}
                                             {% endfor %}
                                         {% else %}
                                             <span class="label label-warning"> 未发布</span>
