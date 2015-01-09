@@ -9,7 +9,7 @@ from django_ajax.decorators import ajax
 
 from core.models import ProductItem
 from core.forms import ProductItemForm
-from apps.alibabachina.listing import ListingScrap
+from apps.alibabachina.scrap import ListingScrap
 from apps.ebay.models import EbayStuff, EbayProductItem
 from apps.ebay.forms import EbayProductItemForm
 from apps.ebay.api import listing
@@ -107,7 +107,9 @@ def listing_detail_ebay(request, item_id):
             item = EbayProductItem.objects.get(id=item_id)
         except EbayProductItem.DoesNotExist:
             pass
-    return render_to_response('listing-detail-ebay.html', {'item': item},
+        else:
+            form = EbayProductItemForm(request.POST, instance=item)
+    return render_to_response('listing-detail-ebay.html', {'item': item, 'form': form},
                               context_instance=RequestContext(request))
 
 
@@ -151,10 +153,49 @@ def listing_detail_ebay_save(request):
 
 
 @ajax
-def listing_detail_ebay_post(request):
-    result = 'failed'
+def listing_detail_ebay_list(request):
+    result = 'fail'
+    msg = ''
+    url = ''
     item_id = request.POST.get('id')
     if item_id:
-        listing.add_fixed_price_item(listing.gen_data_by_item(item_id))
-        result = 'succeed'
-    return {'result': result}
+        try:
+            item = EbayProductItem.objects.get(id=item_id)
+        except EbayProductItem.DoesNotExist:
+            return {'result': 'fail', 'msg': 'EbayProductItem.DoesNotExist'}
+        else:
+            form = EbayProductItemForm(request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+        # data = listing.add_fixed_price_item(listing.gen_data_by_item(item_id))
+        data = {"ItemID": "110154796762", "Errors": {"ErrorCode": "21916045", "LongMessage": "Shipping cost for additional items may not be greater than base shipping cost. Your Additional Shipping Cost has been reset to match the Shipping Cost value.", "ErrorClassification": "RequestError", "SeverityCode": "Warning", "ShortMessage": "Invalid AdditionalShippingCost."}, "Ack": "Warning", "Timestamp": "2015-01-09T04:56:03.929Z", "DiscountReason": "SpecialOffer", "Version": "899", "Build": "E899_UNI_API5_17299296_R1", "StartTime": "2015-01-09T04:56:03.492Z", "Fees": {"Fee": [{"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "AuctionLengthFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "BoldFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "BuyItNowFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "CategoryFeaturedFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "FeaturedFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "GalleryPlusFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "FeaturedGalleryFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "FixedPriceDurationFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "GalleryFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "GiftIconFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "HighLightFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "InsertionFee", "PromotionalDiscount": {"_currencyID": "USD", "value": "0.05"}}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "InternationalInsertionFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "ListingDesignerFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "ListingFee", "PromotionalDiscount": {"_currencyID": "USD", "value": "0.05"}}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "PhotoDisplayFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "PhotoFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "ReserveFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "SchedulingFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "SubtitleFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "BorderFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "ProPackBundleFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "BasicUpgradePackBundleFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "ValuePackBundleFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "PrivateListingFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "ProPackPlusBundleFee"}, {"Fee": {"_currencyID": "USD", "value": "0.0"}, "Name": "MotorsGermanySearchFee"}]}, "EndTime": "2015-02-08T04:56:03.492Z"}
+
+        ack = data.get('Ack')
+        if ack == 'Success':
+            item_id = data.get('ItemID')
+            start_time = data.get('StartTime')
+            end_time = data.get('EndTime')
+            item.item_id = item_id
+            item.save()
+            result = 'success'
+            url = '物品：<a target="_blank" href="http://cgi.sandbox.ebay.com/ws/eBayISAPI.dll?ViewItem&item=%s">%s</a><br/>' % (item_id, item_id)
+            pass
+        elif ack == 'Warning':
+            item_id = data.get('ItemID')
+            start_time = data.get('StartTime')
+            end_time = data.get('EndTime')
+            error_code = data.get('Errors').get('ErrorCode')
+            error_msg = data.get('Errors').get('LongMessage')
+            item.item_id = item_id
+            item.save()
+            result = 'warning'
+            msg = error_msg
+            url = ' ebay物品: <a target="_blank" href="http://cgi.sandbox.ebay.com/ws/eBayISAPI.dll?ViewItem&item=%s">%s</a><br/>' % (item_id, item_id)
+            pass
+        elif ack == 'Fail':
+            error_code = data.get('Errors').get('ErrorCode')
+            error_msg = data.get('Errors').get('LongMessage')
+            result = 'fail'
+            msg = error_msg
+            pass
+    return {'result': result, 'msg': msg, 'url': url}

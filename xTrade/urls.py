@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^listing/detail/ebay/(\d+)/$', 'core.views.listing_detail_ebay'),
     url(r'^listing/detail/ebay/create/$', 'core.views.listing_detail_ebay_create'),
     url(r'^listing/detail/ebay/save/$', 'core.views.listing_detail_ebay_save'),
-    url(r'^listing/detail/ebay/post/$', 'core.views.listing_detail_ebay_post'),
+    url(r'^listing/detail/ebay/list/$', 'core.views.listing_detail_ebay_list'),
 
     url(r'^api/translate/', 'core.utils.translate'),
     url(r'^api/gen_category/', 'apps.ebay.views.gen_category'),

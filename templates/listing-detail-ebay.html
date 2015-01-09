@@ -27,6 +27,8 @@
     <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax-plugin.min.js"></script>
     <script type="text/javascript" src="/static/js/lightbox-2.7.1/js/lightbox.min.js"></script>
     <script type="text/javascript" src="/static/js/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/utils.js"></script>
+    <script type="text/javascript" src="/static/js/form-validation.js"></script>
     <script type="text/javascript">
         function gen_category() {
             ajaxPost('/api/gen_category/', function (response) {
@@ -34,67 +36,15 @@
             });
         }
 
-        function list_ebay_save() {
-            $('#summernote').val($('#summernote').code());
-            var data = $('#main-form').serializeJSON();
-
-            //未选择的图片
-            var images = new Array();
-            $.each($('input[rel="images"]:not(:checked)'), function () {
-                images.push($(this).val());
-            });
-            data['images'] = JSON.stringify(images);
-
-            //已选择的图片
-            var images_checked = new Array();
-            $.each($('input[rel="images"]:checked'), function () {
-                images_checked.push($(this).val());
-            });
-            data['images_checked'] = JSON.stringify(images_checked);
-
-{#            alert(JSON.stringify(data));#}
-            ajaxPost('/listing/detail/ebay/save/', data, function(response){
-                var dataType = 'danger';
-                var htmlData = '<strong><li class="fa fa-frown-o"></li> 保存失败!</strong> 出现未知错误，请联系管理员！';
-                if(response.result == 'succeed'){
-                    dataType = 'success';
-                    htmlData = '<strong><li class="fa fa-smile-o"></li> 保存成功!</strong>';
-                }
-                $.niftyNoty({
-                    type: dataType,
-                    container : 'page',
-                    html : htmlData,
-                    timer : 5000
-                });
-            });
-        }
-
-        function list_ebay_post() {
-            $('#summernote').val($('#summernote').code());
-            var data = $('#main-form').serializeJSON();
-
-            //未选择的图片
-            var images = new Array();
-            $.each($('input[rel="images"]:not(:checked)'), function () {
-                images.push($(this).val());
-            });
-            data['images'] = JSON.stringify(images);
-
-            //已选择的图片
-            var images_checked = new Array();
-            $.each($('input[rel="images"]:checked'), function () {
-                images_checked.push($(this).val());
-            });
-            data['images_checked'] = JSON.stringify(images_checked);
-            ajaxPost('/listing/detail/ebay/post/', data, function(response){
-
-            });
-        }
-
         $(document).ready(function () {
             $('#summernote').summernote({height: 250});
             $('img.lazy').lazyload();
 
+            $('.chosen-select').chosen();
+            $('.selectpicker').selectpicker();
+            $('#images').sortable();
+
+            //翻译
             $('a.gtranslate').click(function () {
                 var obj = $(this);
                 var lang = obj.attr('data-lang');
@@ -105,9 +55,56 @@
                 });
             });
 
-            $('.chosen-select').chosen();
-            $('.selectpicker').selectpicker();
-            $('#images').sortable();
+            //save
+            $('button#btn-save').click(function () {
+                var btn = $(this);
+                btn.button('loading');
+                var data = pack_data();
+{#            alert(JSON.stringify(data));#}
+                ajaxPost('/listing/detail/ebay/save/', data, function(response){
+                    var dataType = 'danger';
+                    var htmlData = '<strong><li class="fa fa-frown-o"></li> 保存失败!</strong> 出现未知错误，请联系管理员！';
+                    if(response.result == 'succeed'){
+                        dataType = 'success';
+                        htmlData = '<strong><li class="fa fa-smile-o"></li> 保存成功!</strong>';
+                    }
+                    $.niftyNoty({
+                        type: dataType,
+                        container : 'page',
+                        html : htmlData,
+                        timer : 5000
+                    });
+                    btn.button('reset');
+                });
+            });
+
+            //list
+            $('button#btn-list').click(function () {
+                var btn = $(this);
+                btn.button('loading');
+                var data = pack_data();
+                ajaxPost('/listing/detail/ebay/list/', data, function(response){
+                    var dataType = 'danger';
+                    var htmlData = '<strong><li class="fa fa-frown-o"></li> 刊登失败!</strong> 出现未知错误，请联系管理员！';
+                    if(response.result == 'success'){
+                        dataType = 'success';
+                        htmlData = '<strong><li class="fa fa-smile-o"></li> 刊登成功！</strong>' + response.url;
+                    }else if(response.result == 'warning'){
+                        dataType = 'warning';
+                        htmlData = '<strong><li class="fa fa-smile-o"></li> 刊登成功！</strong> ' + response.url + response.msg;
+                    }else if(response.result == 'fail'){
+                        dataType = 'danger';
+                        htmlData = '<strong><li class="fa fa-smile-o"></li> 刊登失败！</strong> ' + response.url + response.msg;
+                    }
+                    $.niftyNoty({
+                        type: dataType,
+                        container : 'page',
+                        html : htmlData,
+                        timer : 0
+                    });
+                    btn.button('reset');
+                });
+            });
 
         });
 
@@ -127,7 +124,7 @@
 
             <!--INPUT SIZE-->
             <!--===================================================-->
-            <form method="post" id="main-form">
+            <form id="main-form" method="post">
                 <input type="hidden" name="id" value="{{ item.id }}">
 
                 <div class="panel-body form-horizontal">
@@ -141,6 +138,8 @@
                             <div class="col-md-10">
                                 <select class="selectpicker" data-live-search="false" name="account">
                                     <option selected="selected">tengyutrade2014</option>
+                                    <option>tengyu072012</option>
+                                    <option>testuser_olunx</option>
                                 </select>
                                 {#                    <small class="help-block">This is a help text</small>#}
                             </div>
@@ -150,28 +149,9 @@
 
                             <div class="col-md-10">
                                 <select class="chosen-select" style="width:220px;" name="site_id">
-                                    <option value="0" selected="selected">美国</option>
-                                    <option value="1">加拿大(英语)</option>
-                                    <option value="25">加拿大(法语)</option>
-                                    <option value="2">英国</option>
-                                    <option value="3">澳大利亚</option>
-                                    <option value="4">奥地利</option>
-                                    <option value="5">比利时(法语)</option>
-                                    <option value="9">比利时(荷兰语)</option>
-                                    <option value="6">法国</option>
-                                    <option value="7">德国</option>
-                                    <option value="8">意大利</option>
-                                    <option value="10">荷兰</option>
-                                    <option value="11">西班牙</option>
-                                    <option value="12">瑞士</option>
-                                    <option value="14">eBay 汽车</option>
-                                    <option value="15">香港</option>
-                                    <option value="16">新加坡</option>
-                                    <option value="17">印度</option>
-                                    <option value="19">爱尔兰</option>
-                                    <option value="20">马来西亚</option>
-                                    <option value="21">菲律宾</option>
-                                    <option value="22">波兰</option>
+                                {% for value, name in form.fields.site_id.choices %}
+                                    <option value="{{ value }}" {% if value == item.site_id %}selected="selected"{% endif %}>{{ name }}</option>
+                                {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -180,17 +160,11 @@
 
                             <div class="col-md-10">
                                 <div class="radio">
-                                    <label class="form-radio form-normal active">
-                                        <input type="radio" name="list_type" value="Chinese"> 拍卖
-                                    </label>
-
-                                    <label class="form-radio form-normal">
-                                        <input type="radio" checked="" name="list_type" value="FixedPriceItem"> 固价
-                                    </label>
-
-                                    <label class="form-radio form-normal">
-                                        <input type="radio" name="list_type" value="3"> 多属性
-                                    </label>
+                                    {% for value, name in form.fields.list_type.choices %}
+                                        <label class="form-radio form-normal">
+                                            <input type="radio" name="list_type" value="{{ value }}" {% if value == item.list_type %}checked=""{% endif %}> {{ name }}
+                                        </label>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -331,7 +305,7 @@
                             <label class="col-md-2 control-label" for="demo-text-input">标题</label>
 
                             <div class="col-md-10">
-                                <div class="input-group">
+                                <div class="input-group" style="width: 95%;">
                                     <input class="form-control" type="text" name="title" value="{{ item.title }}">
 
                                     <div class="input-group-btn">
@@ -411,22 +385,9 @@
 
                             <div class="col-md-10">
                                 <div class="input-group" style="width: 220px;">
-                                    <input type="email" class="form-control" name="quality" value="{{ item.quality }}">
+                                    <input type="text" class="form-control" name="quality" value="{{ item.quality }}">
                                     <span class="input-group-addon">Pics</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">物品状况</label>
-
-                            <div class="col-md-10">
-                                <select class="selectpicker" data-live-search="false" name="condition">
-                                    <option value="1000" selected="selected">Brand New</option>
-                                    <option value="2750">Like New</option>
-                                    <option value="4000">Very Good</option>
-                                    <option value="5000">Good</option>
-                                    <option value="6000">Acceptable</option>
-                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -435,12 +396,9 @@
                             <div class="col-md-10">
                                 <div class="input-group" style="width: 220px;">
                                     <select class="selectpicker" data-live-search="false" name="duration">
-                                        <option value="Days_3">3 days</option>
-                                        <option value="Days_5">5 days</option>
-                                        <option value="Days_7">7 days</option>
-                                        <option value="Days_10">10 days</option>
-                                        <option value="Days_30">30 days</option>
-                                        <option value="GTC" selected="selected">GTC</option>
+                                        {% for value, name in form.fields.duration.choices %}
+                                            <option value="{{ value }}" {% if value == item.duration %}selected="selected"{% endif %}>{{ name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -457,8 +415,9 @@
 
                             <div class="col-md-10">
                                 <select class="chosen-select" style="width:220px;" name="item_country">
-                                    <option selected="selected">中国</option>
-                                    <option>香港</option>
+                                    {% for value, name in form.fields.item_country.choices %}
+                                        <option value="{{ value }}" {% if value == item.item_country %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -477,12 +436,9 @@
 
                             <div class="col-md-10">
                                 <select class="selectpicker" name="dispatch_time_max">
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option selected="selected">2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    {% for value, name in form.fields.dispatch_time_max.choices %}
+                                        <option value="{{ value }}" {% if value == item.dispatch_time_max %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -653,11 +609,21 @@
                         <h5 class="control-label" style="text-align: left;">付款</h5>
                         <hr>
                         <div class="form-group">
+                            <label class="col-md-2 control-label">付款方式</label>
+
+                            <div class="col-md-10">
+                                <select class="selectpicker" data-live-search="false" name="payment_method">
+                                    <option value="PayPal" selected="selected">PayPal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-2 control-label">PayPal</label>
 
                             <div class="col-md-10">
                                 <select class="selectpicker" data-live-search="false" name="payment_account">
-                                    <option selected="selected">xieshizheng07@gmail.com</option>
+                                    <option value="xieshizheng07@gmail.com" selected="selected">xieshizheng07@gmail.com</option>
+                                    <option>lunzii@qq.com</option>
                                 </select>
                             </div>
                         </div>
@@ -740,8 +706,8 @@
                             <li><a href="#">wish</a></li>
                         </ul>
                     </div>
-                    <button class="btn btn-warning btn-labeled fa fa-save fa-lg" type="button" onclick="list_ebay_save()">保存</button>
-                    <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg" type="button" onclick="list_ebay_post()">立即刊登</button>
+                    <button id="btn-save" class="btn btn-warning btn-labeled fa fa-save fa-lg" type="button" data-loading-text="正在保存...">保存</button>
+                    <button id="btn-list" class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg" type="button" data-loading-text="正在刊登...">立即刊登</button>
                 </div>
             </form>
             <!--===================================================-->

@@ -50,11 +50,7 @@
                                     <div class="fht-cell"></div>
                                 </th>
                                 <th style="text-align: center; ">
-                                    <div class="th-inner sortable">发布站点</div>
-                                    <div class="fht-cell"></div>
-                                </th>
-                                <th style="text-align: center; ">
-                                    <div class="th-inner sortable">状态</div>
+                                    <div class="th-inner sortable">发布状态</div>
                                     <div class="fht-cell"></div>
                                 </th>
                             </tr>
@@ -62,17 +58,20 @@
                             <tbody>
                             {% for item in items %}
                                 <tr data-index="{{ forloop.counter }}">
-                                <td style="text-align: center;">{{ forloop.counter }}</td>
-                                <td style=""><a class="btn-link" href="/listing/detail/{{ item.id }}/" target="_self">{{ item.title }}</a></td>
-                                <td style="text-align: center; ">1688</td>
-                                <td style="text-align: center; ">
-                                    {% for ebay in item.ebayproductitem_set.all %}
-                                        <a class="label label-success" href="/listing/detail/ebay/{{ ebay.id }}/">{{ ebay.account }}</a>
-                                    {% endfor %}
-                                </td>
-                                <td style="text-align: center; ">
-                                    <span class="label label-warning"> 未发布</span>
-                                </td>
+                                    <td style="text-align: center;">{{ forloop.counter }}</td>
+                                    <td style=""><a class="btn-link" href="/listing/detail/{{ item.id }}/" target="_self">{{ item.title }}</a></td>
+                                    <td style="text-align: center; ">
+                                        <a class="label label-default" href="{{ item.url }}" target="_blank">1688</a>
+                                    </td>
+                                    <td style="text-align: center; ">
+                                        {% if item.ebayproductitem_set.count > 0 %}
+                                            {% for ebay in item.ebayproductitem_set.all %}
+                                                <a class="label label-success" href="/listing/detail/ebay/{{ ebay.id }}/">{{ ebay.account }}</a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <span class="label label-warning"> 未发布</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -80,13 +79,13 @@
                     </div>
                     <div class="fixed-table-pagination">
                         <div class="pull-left pagination-detail">
-{#                            <span class="pagination-info">第 {{ stuffs.start_index }} 至 {{ stuffs.end_index }} 条</span>#}
+                            {#                            <span class="pagination-info">第 {{ stuffs.start_index }} 至 {{ stuffs.end_index }} 条</span>#}
                             <span class="pagination-info"> 第 {{ stuffs.number }} 页 共 {{ stuffs.paginator.num_pages }} 页</span>
                             <span class="page-list">
                                 每页
                                 <span class="btn-group dropup">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="page-size">25</span> <span class="caret"></span>
+                                        <span class="page-size">25</span> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="javascript:void(0)">10</a></li>

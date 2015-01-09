@@ -27,46 +27,8 @@
     <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax-plugin.min.js"></script>
     <script type="text/javascript" src="/static/js/lightbox-2.7.1/js/lightbox.min.js"></script>
     <script type="text/javascript" src="/static/js/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/utils.js"></script>
     <script type="text/javascript">
-        function list_create() {
-            var data = $('#main-form').serializeJSON();
-            ajaxPost('/listing/detail/create/', data);
-        }
-        function list_save() {
-            $('#summernote').val($('#summernote').code());
-            var data = $('#main-form').serializeJSON();
-
-            //未选择的图片
-            var images = new Array();
-            $.each($('input[rel="images"]:not(:checked)'), function () {
-                images.push($(this).val());
-            });
-            data['images'] = JSON.stringify(images);
-
-            //已选择的图片
-            var images_checked = new Array();
-            $.each($('input[rel="images"]:checked'), function () {
-                images_checked.push($(this).val());
-            });
-            data['images_checked'] = JSON.stringify(images_checked);
-
-{#            alert(JSON.stringify(data));#}
-
-            ajaxPost('/listing/detail/save/', data, function (response) {
-                var dataType = 'danger';
-                var htmlData = '<strong><li class="fa fa-frown-o"></li> 保存失败!</strong> 出现未知错误，请联系管理员！';
-                if (response.result == 'succeed') {
-                    dataType = 'success';
-                    htmlData = '<strong><li class="fa fa-smile-o"></li> 保存成功!</strong>';
-                }
-                $.niftyNoty({
-                    type: dataType,
-                    container: 'page',
-                    html: htmlData,
-                    timer: 5000
-                });
-            });
-        }
         function list_ebay_create() {
             var data = $('#main-form').serializeJSON();
             ajaxPost('/listing/detail/ebay/create/', data);
@@ -79,6 +41,36 @@
             $('.chosen-select').chosen();
             $('.selectpicker').selectpicker();
             $('#images').sortable();
+
+            //scrap
+            $('button#btn-scrap').click(function () {
+                $(this).button('loading');
+                var data = $('#main-form').serializeJSON();
+                ajaxPost('/listing/detail/create/', data);
+            });
+
+            //save
+            $('button#btn-save').click(function() {
+                var btn = $(this);
+                btn.button('loading');
+                var data = pack_data();
+{#            alert(JSON.stringify(data));#}
+                ajaxPost('/listing/detail/save/', data, function (response) {
+                    var dataType = 'danger';
+                    var htmlData = '<strong><li class="fa fa-frown-o"></li> 保存失败!</strong> 出现未知错误，请联系管理员！';
+                    if (response.result == 'succeed') {
+                        dataType = 'success';
+                        htmlData = '<strong><li class="fa fa-smile-o"></li> 保存成功!</strong>';
+                    }
+                    $.niftyNoty({
+                        type: dataType,
+                        container: 'page',
+                        html: htmlData,
+                        timer: 5000
+                    });
+                    btn.button('reset');
+                });
+            });
         });
 
     </script>
@@ -111,10 +103,10 @@
                             <div class="col-md-10">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="page" placeholder="输入要抓取的网址"
-                                           value="{{ item.url }}" {% if item %}disabled=""{% endif %}>
+                                           value="{{ item.url }}" {% if item %}readonly=""{% endif %}>
 
                                     <div class="input-group-btn">
-                                        <button class="btn btn-danger btn-labeled fa fa-paw" type="button" onclick="list_create()">抓取</button>
+                                        <button id="btn-scrap" class="btn btn-danger btn-labeled fa fa-paw" type="button" data-loading-text="正在抓取...">抓取</button>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +190,7 @@
                 </div>
 
                 <div class="panel-footer text-right">
-                    <button class="btn btn-warning btn-labeled fa fa-save fa-lg" type="button" onclick="list_save()">保存</button>
+                    <button id="btn-save" class="btn btn-warning btn-labeled fa fa-save fa-lg" type="button" data-loading-text="正在保存...">保存</button>
                     <div class="btn-group">
                         <button class="btn btn-danger btn-labeled fa fa-plus-square-o fa-lg dropdown-toggle" data-toggle="dropdown" type="button" aria-expanded="true">
                             添加刊登 <i class="dropdown-caret fa fa-caret-down"></i>

@@ -94,6 +94,7 @@ class ListingScrap():
         else:
             item.title = title
             item.images = images
+            item.images_checked = None
             item.content = content_text
             item.content_url = content_url
             item.purchasing_price = price

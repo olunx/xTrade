@@ -23,10 +23,11 @@ def add_fixed_price_item(data):
         print data
 
         api.execute('AddFixedPriceItem', data)
-        print(api.response.json())
+        print(api.response.dict())
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
+    return api.response.dict()
 
 
 def gen_data_by_item(item_id):
@@ -44,20 +45,21 @@ def gen_data_by_item(item_id):
             "PrimaryCategory": {"CategoryID": "377"},
             "StartPrice": item.price,
             "CategoryMappingAllowed": "true",
-            "Country": "US",
             "ConditionID": "1000",
             "Currency": "USD",
+            "Country": item.item_country,
+            "Location": item.item_location,
+            "PostalCode": item.item_postal,
+            "Quantity": item.quality,
             "DispatchTimeMax": item.dispatch_time_max,
-            "ListingDuration": item.duration,
             "ListingType": item.list_type,
+            "ListingDuration": item.duration,
             "PaymentMethods": "PayPal",
             "PayPalEmailAddress": "lunzii@qq.com",
             "AutoPay": "true",
             "PictureDetails": {
                 "PictureURL": item.get_image_checked_list(),
             },
-            "PostalCode": "95125",
-            "Quantity": item.quality,
             "ReturnPolicy": {
                 "ReturnsAcceptedOption": "ReturnsAccepted",
                 "RefundOption": "MoneyBack",
@@ -69,7 +71,8 @@ def gen_data_by_item(item_id):
                 "ShippingType": "Flat",
                 "ShippingServiceOptions": {
                     "ShippingServicePriority": "1",
-                    "ShippingService": "USPSMedia",
+                    "ShippingService": item.shipping_internal_service,
+                    # "ShippingService": "USPSMedia",
                     # "ShippingService": "ePacketChina",
                     "ShippingServiceCost": item.shipping_internal_cost,
                     "ShippingServiceAdditionalCost": item.shipping_internal_additional_cost,
@@ -77,6 +80,7 @@ def gen_data_by_item(item_id):
                 },
                 "InternationalShippingServiceOption": {
                     "ShippingServicePriority": "1",
+                    "ShippingService": item.shipping_international_service,
                     "ShippingService": "StandardInternational",
                     "ShippingServiceCost": item.shipping_international_cost,
                     "ShippingServiceAdditionalCost": item.shipping_international_additional_cost,

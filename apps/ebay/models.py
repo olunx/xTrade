@@ -83,8 +83,8 @@ class EbayProductItem(models.Model):
     item_country = models.CharField(max_length=32, null=True, verbose_name='Item Country', default='China')
     item_postal = models.CharField(max_length=32, null=True, verbose_name='Item Postal', default='518000')
 
-    payment_method = models.CharField(max_length=128, null=True, verbose_name='Payment Method')
-    payment_account = models.CharField(max_length=128, null=True, verbose_name='Payment Account')
+    payment_method = models.CharField(max_length=128, null=True, verbose_name='Payment Method', default='PayPal')
+    payment_account = models.CharField(max_length=128, null=True, verbose_name='Payment Account', default='xieshizheng07@gmail.com')
     payment_requirement = models.CharField(max_length=128, null=True, verbose_name='Payment Requirement')
 
     shipping_internal_type = models.CharField(max_length=128, null=True, verbose_name='Shipping Internal Type')
