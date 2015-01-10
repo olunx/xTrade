@@ -43,3 +43,6 @@ class ProductItem(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        db_table = 'core_product_item'
+

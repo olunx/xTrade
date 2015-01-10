@@ -25,6 +25,9 @@ class EbayStuff(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        db_table = 'apps_ebay_stuff'
+
 
 # 原始ebay分类
 
@@ -40,6 +43,9 @@ class EbayCategory(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        db_table = 'apps_ebay_category'
+
 
 # 前端ebay分类
 
@@ -52,6 +58,9 @@ class EbayCategoryForm(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        db_table = 'apps_ebay_category_form'
 
 
 # ebay刊登条目
@@ -109,3 +118,6 @@ class EbayProductItem(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        db_table = 'apps_ebay_product_item'

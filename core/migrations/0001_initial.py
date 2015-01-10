@@ -19,7 +19,8 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=256, null=True, verbose_name=b'Title')),
                 ('content', models.TextField(null=True, verbose_name=b'Content')),
                 ('content_url', models.TextField(null=True, verbose_name=b'Content URL')),
-                ('images', models.TextField(null=True, verbose_name=b'Image')),
+                ('images', models.TextField(null=True, verbose_name=b'Images')),
+                ('images_checked', models.TextField(null=True, verbose_name=b'Images Checked')),
                 ('purchasing_location', models.CharField(max_length=30, null=True, verbose_name=b'Purchasing Location')),
                 ('purchasing_price', models.CharField(max_length=30, null=True, verbose_name=b'Purchasing Price')),
                 ('purchasing_shipping', models.CharField(max_length=30, null=True, verbose_name=b'Purchasing Shipping')),
@@ -36,6 +37,7 @@ class Migration(migrations.Migration):
                 ('create_date', models.DateTimeField(auto_now_add=True, verbose_name=b'Create Time')),
             ],
             options={
+                'db_table': 'core_product_item',
             },
             bases=(models.Model,),
         ),
