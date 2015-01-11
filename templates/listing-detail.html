@@ -30,7 +30,7 @@
     <script type="text/javascript" src="/static/js/ebay-utils.js"></script>
     <script type="text/javascript">
         function list_ebay_create() {
-            var data = $('#main-form').serializeJSON();
+            var data = formData();
             ajaxPost('/listing/detail/ebay/create/', data);
         }
 
@@ -53,7 +53,7 @@
             $('button#btn-save').click(function() {
                 var btn = $(this);
                 btn.button('loading');
-                var data = pack_data();
+                var data = formData();
 {#            alert(JSON.stringify(data));#}
                 ajaxPost('/listing/detail/save/', data, function (response) {
                     var dataType = 'danger';
@@ -71,6 +71,8 @@
                     btn.button('reset');
                 });
             });
+
+            //submit
         });
 
     </script>
