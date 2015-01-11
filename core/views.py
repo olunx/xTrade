@@ -10,6 +10,7 @@ import goslate
 
 from core.models import ProductItem
 from core.forms import ProductItemForm
+from apps.alibabachina.models import AlibabaChinaStuff
 from apps.alibabachina.scrap import ListingScrap
 from apps.ebay.models import EbayStuff, EbayProductItem
 from apps.ebay.forms import EbayProductItemForm
@@ -20,10 +21,7 @@ def home(request):
     return render_to_response('index.html')
 
 
-def hot_stuff(request):
-    category = request.GET.get('category')
-    page = request.GET.get('page')
-
+def hot_item_ebay(request, category, page):
     if category and category != 'None':
         stuffs_list = EbayStuff.objects.filter(category__contains=category).order_by('-sold')
     else:
@@ -32,13 +30,32 @@ def hot_stuff(request):
 
     paginator = Paginator(stuffs_list, 25)
     try:
-        stuffs = paginator.page(page)
+        items = paginator.page(page)
     except PageNotAnInteger:
-        stuffs = paginator.page(1)
+        items = paginator.page(1)
     except EmptyPage:
-        stuffs = paginator.page(paginator.num_pages)
+        items = paginator.page(paginator.num_pages)
 
-    return render_to_response('hot-stuff.html', {'category': category, 'stuffs': stuffs},
+    return render_to_response('hot-item-ebay.html', {'category': category, 'items': items},
+                              context_instance=RequestContext(request))
+
+
+def hot_item_alibabachina(request, category, page):
+    if category and category != 'None':
+        items_list = AlibabaChinaStuff.objects.filter(category__contains=category).order_by('-sold_item')
+    else:
+        category = 0
+        items_list = AlibabaChinaStuff.objects.all().order_by('-sold_item')
+
+    paginator = Paginator(items_list, 25)
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+    return render_to_response('hot-item-alibabachina.html', {'category': category, 'items': items},
                               context_instance=RequestContext(request))
 
 
