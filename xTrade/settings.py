@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'core',
     'apps.ebay',
     'apps.alibabachina',
+    'apps.aliexpress',
 )
 
 MIDDLEWARE_CLASSES = (

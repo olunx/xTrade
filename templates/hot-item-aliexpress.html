@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}热销{% endblock %}
+{% block page_title %}热销{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax.min.js"></script>
+    <script type="text/javascript" src="/static/django_ajax/js/jquery.ajax-plugin.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var seletor = $('.selectpicker');
+            seletor.selectpicker();
+            seletor.on('change', function () {
+                var selected = $('.selectpicker option:selected').val();
+                window.location.href = '/hot/item/aliexpress/' + selected;
+            });
+
+            var category = {{ category }};
+            $('.selectpicker option').each(function() {
+                if($(this).val() == category){
+                    seletor.selectpicker('val', category);
+                }
+            });
+
+            //active
+{#            $('#hot-item').addClass('active-sub active');#}
+{#            $('#hot-item-alibabachina').addClass('active-link');#}
+        });
+    </script>
+{% endblock %}
+{% block breadcrumb %}
+    <li class="active"><a href="#">首页</a></li>
+    <li><a href="#">热销</a></li>
+    <li><a href="#">速卖通</a></li>
+{% endblock %}
+{% block content %}
+    <div class="panel">
+
+        <!--DATA TABLE-->
+        <!--===================================================-->
+
+
+        <div class="panel-body">
+
+            <div class="bootstrap-table">
+                <div class="fixed-table-toolbar">
+                    <div class="bars pull-left">
+                        <h4 id="demo-custom-toolbar" class="box-inline text-thin">
+                            速卖通
+                        </h4>
+                    </div>
+                    <div class="columns btn-group pull-right">
+                        <select class="selectpicker" style="width:60%;" data-live-search="true" name="category">
+                            <option value="0">所有</option>
+                             <option value="1001">电子产品</option>
+                        </select>
+                    </div>
+{#                    <div class="pull-right search"><input class="form-control" type="text" placeholder="Search"></div>#}
+                </div>
+                <div class="fixed-table-container">
+                    <div class="fixed-table-header">
+                        <table></table>
+                    </div>
+                    <div class="fixed-table-body">
+                        <div class="fixed-table-loading" style="top: 37px; display: none;">Loading, please wait…</div>
+                        <table id="demo-table" class="table-striped table table-hover"
+                               data-toolbar="#demo-custom-toolbar" data-sort-name="id" data-sort-order="desc"
+                               data-pagination="true" data-url="data1.json" data-show-refresh="true"
+                               data-show-toggle="true" data-show-columns="true" data-search="true"
+                               data-select-item-name="toolbar1">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner">序号</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="">
+                                    <div class="th-inner">标题</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner">售出数量</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner">评价数量</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner">价格</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner">店铺</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                                <th style="text-align: center; ">
+                                    <div class="th-inner">单位</div>
+                                    <div class="fht-cell"></div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in items %}
+                                <tr data-index="{{ forloop.counter }}">
+                                    <td style="text-align: center;">{{ forloop.counter }}</td>
+                                    <td style=""><a class="btn-link" href="{{ item.url }}" target="_blank">{{ item.title|truncatechars:80 }}</a></td>
+                                    <td style="text-align: center; ">{{ item.order_num }}</td>
+                                    <td style="text-align: center; ">{{ item.rate_num }}</td>
+                                    <td style="text-align: center; ">{{ item.price }}</td>
+                                    <td style="text-align: center; "><a class="btn-link" href="{{ item.store_url }}" target="_target">{{ item.store_name }}</a></td>
+                                    <td style="text-align: center; ">{{ item.unit }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fixed-table-pagination">
+                        <div class="pull-left pagination-detail">
+                            {#                            <span class="pagination-info">第 {{ stuffs.start_index }} 至 {{ stuffs.end_index }} 条</span>#}
+                            <span class="pagination-info"> 第 {{ items.number }} 页 共 {{ items.paginator.num_pages }} 页</span>
+                            <span class="page-list">
+                                每页
+                                <span class="btn-group dropup">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="page-size">25</span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="javascript:void(0)">10</a></li>
+                                        <li class="active"><a href="javascript:void(0)">25</a></li>
+                                        <li><a href="javascript:void(0)">50</a></li>
+                                        <li><a href="javascript:void(0)">100</a></li>
+                                    </ul>
+                                </span>
+                                条
+                            </span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <ul class="pagination">
+                                {% if items.has_previous %}
+                                    <li class="page-first"><a href="/hot/item/aliexpress/{{ category }}/1/">首页</a></li>
+                                    <li class="page-pre"><a href="/hot/item/aliexpress/{{ category }}/{{ items.previous_page_number }}/">上一页</a></li>
+                                    {% if items.previous_page_number > 1 %}
+                                        <li class="page-number"><a href="/hot/item/aliexpress/{{ category }}/{{ items.previous_page_number|add:-1 }}/">{{ items.previous_page_number|add:-1 }}</a></li>
+                                    {% endif %}
+                                    <li class="page-number"><a href="/hot/item/aliexpress/{{ category }}/{{ items.previous_page_number }}/">{{ items.previous_page_number }}</a></li>
+                                {% else %}
+                                    <li class="page-pre disabled"><a href="javascript:void(0)">上一页</a></li>
+                                {% endif %}
+                                <li class="page-number active"><a href="javascript:void(0)">{{ items.number }}</a></li>
+                                {% if items.has_next %}
+                                    <li class="page-number"><a href="/hot/item/aliexpress/{{ category }}/{{ items.next_page_number }}/">{{ items.next_page_number }}</a></li>
+                                    {% if items.paginator.num_pages > items.next_page_number %}
+                                        <li class="page-number"><a href="/hot/item/aliexpress/{{ category }}/{{ items.next_page_number|add:1 }}/">{{ items.next_page_number|add:1 }}</a></li>
+                                    {% endif %}
+                                    <li class="page-next"><a href="/hot/item/aliexpress/{{ category }}/{{ items.next_page_number }}/">下一页</a></li>
+                                    <li class="page-last"><a href="/hot/item/aliexpress/{{ category }}/{{ items.paginator.num_pages }}/">末页</a></li>
+                                {% else %}
+                                    <li class="page-next disabled"><a href="javascript:void(0)">下一页</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!--===================================================-->
+        <!--END OF DATA TABLE-->
+
+
+    </div>
+{% endblock %}

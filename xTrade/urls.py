@@ -13,6 +13,10 @@ urlpatterns = patterns('',
     url(r'^hot/item/alibabachina/(\d+)/$', 'core.views.hot_item_alibabachina', {'page': 1}),
     url(r'^hot/item/alibabachina/(\d+)/(\d+)/$', 'core.views.hot_item_alibabachina'),
 
+    url(r'^hot/item/aliexpress/$', 'core.views.hot_item_aliexpress', {'category': 0, 'page': 1}),
+    url(r'^hot/item/aliexpress/(\d+)/$', 'core.views.hot_item_aliexpress', {'page': 1}),
+    url(r'^hot/item/aliexpress/(\d+)/(\d+)/$', 'core.views.hot_item_aliexpress'),
+
     url(r'^listing/$', 'core.views.listing_list'),
     url(r'^listing/detail/(\d+)/$', 'core.views.listing_detail'),
     url(r'^listing/detail/new/$', 'core.views.listing_detail_new'),

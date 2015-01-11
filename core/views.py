@@ -10,11 +10,12 @@ import goslate
 
 from core.models import ProductItem
 from core.forms import ProductItemForm
-from apps.alibabachina.models import AlibabaChinaStuff
-from apps.alibabachina.scrap import ListingScrap
 from apps.ebay.models import EbayStuff, EbayProductItem
 from apps.ebay.forms import EbayProductItemForm
 from apps.ebay.api import listing
+from apps.alibabachina.models import AlibabaChinaStuff
+from apps.alibabachina.scrap import ListingScrap
+from apps.aliexpress.models import AliexpressStuff
 
 
 def home(request):
@@ -56,6 +57,25 @@ def hot_item_alibabachina(request, category, page):
         items = paginator.page(paginator.num_pages)
 
     return render_to_response('hot-item-alibabachina.html', {'category': category, 'items': items},
+                              context_instance=RequestContext(request))
+
+
+def hot_item_aliexpress(request, category, page):
+    if category and category != 'None':
+        items_list = AliexpressStuff.objects.filter(category__contains=category).order_by('-order_num')
+    else:
+        category = 0
+        items_list = AliexpressStuff.objects.all().order_by('-order_num')
+
+    paginator = Paginator(items_list, 25)
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+    return render_to_response('hot-item-aliexpress.html', {'category': category, 'items': items},
                               context_instance=RequestContext(request))
 
 
