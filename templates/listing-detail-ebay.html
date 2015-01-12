@@ -162,9 +162,9 @@
 
                             <div class="col-md-10">
                                 <select class="selectpicker" data-live-search="false" name="account">
-                                    <option selected="selected">tengyutrade2014</option>
-                                    <option>tengyu072012</option>
-                                    <option>testuser_olunx</option>
+                                    {% for value, name in form.fields.account.choices %}
+                                        <option value="{{ value }}" {% if value == item.account %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                                 {#                    <small class="help-block">This is a help text</small>#}
                             </div>
@@ -201,105 +201,14 @@
                             <label class="col-md-2 control-label">ebay分类</label>
 
                             <div class="col-md-10">
-                                <select class="chosen-select" style="width:60%;" name="ebay_cat_primary">
-                                    <optgroup label="Cell Phones & Accessories">
-                                        <option value="9355" id="o_fcatoption_9355" role="option">Cell Phones &amp; Smartphones</option>
-                                        <option value="178893" id="o_fcatoption_178893" role="option">Smart Watches</option>
-                                        <option value="58543" id="o_o_fcatoption_58543" role="option">Cell Phone Accessories > Accessory Bundles</option>
-                                        <option value="166030" id="o_o_fcatoption_166030" role="option">Cell Phone Accessories > Armbands</option>
-                                        <option value="132297" id="o_o_fcatoption_132297" role="option">Cell Phone Accessories > Audio Docks &amp; Speakers</option>
-                                        <option value="20357" id="o_o_fcatoption_20357" role="option">Cell Phone Accessories > Batteries</option>
-                                        <option value="123422" id="o_o_fcatoption_123422" role="option">Cell Phone Accessories > Cables &amp; Adapters</option>
-                                        <option value="88468" id="o_o_fcatoption_88468" role="option">Cell Phone Accessories > Car Speakerphones</option>
-                                        <option value="20349" id="o_o_fcatoption_20349" role="option">Cell Phone Accessories > Cases, Covers &amp; Skins</option>
-                                        <option value="123417" id="o_o_fcatoption_123417" role="option">Cell Phone Accessories > Chargers &amp; Cradles</option>
-                                        <option value="20373" id="o_o_fcatoption_20373" role="option">Cell Phone Accessories > Decals &amp; Stickers</option>
-                                        <option value="146504" id="o_o_fcatoption_146504" role="option">Cell Phone Accessories > FM Transmitters</option>
-                                        <option value="80077" id="o_o_fcatoption_80077" role="option">Cell Phone Accessories > Headsets</option>
-                                        <option value="43307" id="o_o_fcatoption_43307" role="option">Cell Phone Accessories > Manuals &amp; Guides</option>
-                                        <option value="96991" id="o_o_fcatoption_96991" role="option">Cell Phone Accessories > Memory Cards</option>
-                                        <option value="48571" id="o_o_fcatoption_48571" role="option">Cell Phone Accessories > Memory Card Readers &amp; Adapters</option>
-                                        <option value="35190" id="o_o_fcatoption_35190" role="option">Cell Phone Accessories > Mounts &amp; Holders</option>
-                                        <option value="179406" id="o_o_fcatoption_179406" role="option">Cell Phone Accessories > Port Dust Covers</option>
-                                        <option value="58540" id="o_o_fcatoption_58540" role="option">Cell Phone Accessories > Screen Protectors</option>
-                                        <option value="68030" id="o_o_fcatoption_68030" role="option">Cell Phone Accessories > Signal Boosters</option>
-                                        <option value="122962" id="o_o_fcatoption_122962" role="option">Cell Phone Accessories > Straps &amp; Charms</option>
-                                        <option value="48677" id="o_o_fcatoption_48677" role="option">Cell Phone Accessories > Styluses</option>
-                                        <option value="42425" id="o_o_fcatoption_42425" role="option">Cell Phone Accessories > Other</option>
-                                        <option>Cables & Adapters</option>
-                                    </optgroup>
-                                    <optgroup label="Computers/Tablets & Networking">
-                                        <option value="31492" id="o_o_fcatoption_31492" role="option">Cables & Connectors > Audio Cables &amp; Adapters</option>
-                                        <option value="58300" id="o_o_fcatoption_58300" role="option">Cables & Connectors > Cable Testers</option>
-                                        <option value="67858" id="o_o_fcatoption_67858" role="option">Cables & Connectors > Cable Ties &amp; Organizers</option>
-                                        <option value="51169" id="o_o_fcatoption_51169" role="option">Cables & Connectors > Cabling Tools</option>
-                                        <option value="74941" id="o_o_fcatoption_74941" role="option">Cables & Connectors > Drive Cables &amp; Adapters</option>
-                                        <option value="31493" id="o_o_fcatoption_31493" role="option">Cables & Connectors > FireWire Cables &amp; Adapters</option>
-                                        <option value="51172" id="o_o_fcatoption_51172" role="option">Cables & Connectors > KVM Switches &amp; KVM Cables</option>
-                                        <option value="158840" id="o_o_fcatoption_158840" role="option">Cables & Connectors > Monitor/AV Cables &amp; Adapters</option>
-                                        <option value="20311" id="o_o_fcatoption_20311" role="option">Cables & Connectors > Networking Cables &amp; Adapters &gt;</option>
-                                        <option value="116848" id="o_o_fcatoption_116848" role="option">Cables & Connectors > Parallel, Serial &amp; PS/2</option>
-                                        <option value="45342" id="o_o_fcatoption_45342" role="option">Cables & Connectors > Power Cables &amp; Connectors</option>
-                                        <option value="44932" id="o_o_fcatoption_44932" role="option">Cables & Connectors > USB Cables, Hubs &amp; Adapters</option>
-                                        <option value="3668" id="o_o_fcatoption_3668" role="option">Cables & Connectors > Other</option>
-                                        <option value="131542" id="o_o_fcatoption_131542" role="option">Drives, Storage & Blank Media > CD, DVD &amp; Blu-ray Drives</option>
-                                        <option value="31509" id="o_o_fcatoption_31509" role="option">Drives, Storage & Blank Media > CD, DVD &amp; Blu-ray Duplicators</option>
-                                        <option value="158816" id="o_o_fcatoption_158816" role="option">Drives, Storage & Blank Media > Drive Bay Caddies</option>
-                                        <option value="158817" id="o_o_fcatoption_158817" role="option">Drives, Storage & Blank Media > Drive Enclosures &amp; Docks</option>
-                                        <option value="169" id="o_o_fcatoption_169" role="option">Drives, Storage & Blank Media > Floppy, Zip &amp; Jaz Drives</option>
-                                        <option value="158830" id="o_o_fcatoption_158830" role="option">Drives, Storage & Blank Media > Hard Drives (HDD, SSD &amp; NAS) &gt;</option>
-                                        <option value="175671" id="o_o_fcatoption_175671" role="option">Drives, Storage & Blank Media > Hard Drive Duplicators</option>
-                                        <option value="39976" id="o_o_fcatoption_39976" role="option">Drives, Storage & Blank Media > Tape &amp; Data Cartridge Drives</option>
-                                        <option value="51071" id="o_o_fcatoption_51071" role="option">Drives, Storage & Blank Media > USB Flash Drives</option>
-                                        <option value="167" id="o_o_fcatoption_167" role="option">Drives, Storage & Blank Media > Other</option>
-                                        <option value="80133" id="o_o_fcatoption_80133" role="option">Drives, Storage & Blank Media > Blank Media &amp; Accessories &gt;</option>
-                                        <option value="61816" id="o_o_fcatoption_61816" role="option">Home Networking & Connectivity > Boosters, Extenders &amp; Antennas</option>
-                                        <option value="175710" id="o_o_fcatoption_175710" role="option">Home Networking & Connectivity > Mobile Broadband Devices</option>
-                                        <option value="58297" id="o_o_fcatoption_58297" role="option">Home Networking & Connectivity > Modems</option>
-                                        <option value="101270" id="o_o_fcatoption_101270" role="option">Home Networking & Connectivity > Modem-Router Combos</option>
-                                        <option value="67262" id="o_o_fcatoption_67262" role="option">Home Networking & Connectivity > Powerline Networking</option>
-                                        <option value="44999" id="o_o_fcatoption_44999" role="option">Home Networking & Connectivity > USB Bluetooth Adapters/Dongles</option>
-                                        <option value="45002" id="o_o_fcatoption_45002" role="option">Home Networking & Connectivity > USB Wi-Fi Adapters/Dongles</option>
-                                        <option value="61840" id="o_o_fcatoption_61840" role="option">Home Networking & Connectivity > VoIP Home Phones</option>
-                                        <option value="99269" id="o_o_fcatoption_99269" role="option">Home Networking & Connectivity > VoIP Phone Adapters</option>
-                                        <option value="11183" id="o_o_fcatoption_11183" role="option">Home Networking & Connectivity > Wired Routers</option>
-                                        <option value="175709" id="o_o_fcatoption_175709" role="option">Home Networking & Connectivity > Wireless Access Points</option>
-                                        <option value="44995" id="o_o_fcatoption_44995" role="option">Home Networking & Connectivity > Wireless Routers</option>
-                                        <option value="44996" id="o_o_fcatoption_44996" role="option">Home Networking & Connectivity > Other</option>
-                                    </optgroup>
-                                    <optgroup label="Consumer Electronics">
-                                        <option value="112529" id="o_o_fcatoption_112529" role="option">Portable Audio & Headphones > Headphones</option>
-                                        <option value="73839" id="o_o_fcatoption_73839" role="option">Portable Audio & Headphones > iPods &amp; MP3 Players</option>
-                                        <option value="56169" id="o_o_fcatoption_56169" role="option">Portable Audio & Headphones > iPod, Audio Player Accessories &gt;</option>
-                                        <option value="15053" id="o_o_fcatoption_15053" role="option">Portable Audio & Headphones > Personal Cassette Players</option>
-                                        <option value="15054" id="o_o_fcatoption_15054" role="option">Portable Audio & Headphones > Personal CD Players</option>
-                                        <option value="15056" id="o_o_fcatoption_15056" role="option">Portable Audio & Headphones > Personal MiniDisc Recorders</option>
-                                        <option value="96954" id="o_o_fcatoption_96954" role="option">Portable Audio & Headphones > Portable AM/FM Radios</option>
-                                        <option value="109256" id="o_o_fcatoption_109256" role="option">Portable Audio & Headphones > Portable Satellite Radios</option>
-                                        <option value="48626" id="o_o_fcatoption_48626" role="option">Portable Audio & Headphones > Portable Stereos, Boomboxes</option>
-                                        <option value="163769" id="o_o_fcatoption_163769" role="option">Portable Audio & Headphones > Replacement Parts &amp; Tools</option>
-                                        <option value="3281" id="o_o_fcatoption_3281" role="option">Portable Audio & Headphones > Other</option>
-                                    </optgroup>
-                                </select>
+                                <input type="text" class="form-control" style="width: 220px;" name="ebay_cat_primary" value="{{ item.ebay_cat_primary }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label"></label>
 
                             <div class="col-md-10">
-                                <select class="chosen-select" style="width:60%;" name="ebay_cat_secondary">
-                                    <optgroup label="Cell Phones & Accessories">
-                                        <option>Cell Phone Accessories</option>
-                                        <option>Cables & Adapters</option>
-                                    </optgroup>
-                                    <optgroup label="Movie">
-                                        <option>Action</option>
-                                        <option>Comedy</option>
-                                        <option>Adventure</option>
-                                        <option>Drama</option>
-                                        <option>Romance</option>
-                                    </optgroup>
-                                </select>
+                                <input type="text" class="form-control" style="width: 220px;" name="ebay_cat_secondary" value="{{ item.ebay_cat_secondary }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -307,8 +216,9 @@
 
                             <div class="col-md-10">
                                 <select class="selectpicker" data-live-search="false" style="width:60%;" name="store_cat_primary">
-                                    <option>Cable</option>
-                                    <option>Audio</option>
+                                    {% for value, name in form.fields.store_cat_primary.choices %}
+                                    <option value="{{ value }}" {% if value == item.store_cat_primary %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -317,8 +227,9 @@
 
                             <div class="col-md-10">
                                 <select class="selectpicker" data-live-search="false" style="width:60%;" name="store_cat_secondary">
-                                    <option>Cable</option>
-                                    <option>Audio</option>
+                                    {% for value, name in form.fields.store_cat_secondary.choices %}
+                                    <option value="{{ value }}" {% if value == item.store_cat_secondary %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -647,8 +558,9 @@
 
                             <div class="col-md-10">
                                 <select class="selectpicker" data-live-search="false" name="payment_account">
-                                    <option value="xieshizheng07@gmail.com" selected="selected">xieshizheng07@gmail.com</option>
-                                    <option>lunzii@qq.com</option>
+                                    {% for value, name in form.fields.payment_account.choices %}
+                                        <option value="{{ value }}" {% if value == item.payment_account %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>

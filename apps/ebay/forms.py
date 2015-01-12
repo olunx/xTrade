@@ -5,6 +5,12 @@ from django import forms
 
 from apps.ebay.models import EbayProductItem
 
+ACCOUNT_CHOICES = (
+    ('tengyu072012', 'tengyu072012'),
+    ('tengyutrade2014', 'tengyutrade2014'),
+    ('testuser_olunx', 'testuser_olunx'),
+)
+
 SITE_ID_CHOICES = (
     ('0', u'美国'),
     ('1', u'加拿大(英语)'),
@@ -59,13 +65,36 @@ DISPATCH_TIME_CHOICES = (
     ('5', '5'),
 )
 
+STORE_CAT_CHOICES = (
+    ('7845088011', 'Audio'),
+    ('7845089011', 'Case'),
+    ('7845090011', 'Cable' ),
+    ('7845091011', 'Dock'),
+    ('7845092011', 'Earphone'),
+    ('7845093011', 'Charger'),
+    ('7845094011', 'Copter'),
+    ('7845095011', 'Battery'),
+    ('7845096011', 'Bicycle'),
+    ('7845097011', 'Toy'),
+    ('7845098011', 'Glass'),
+    ('7845099011', 'Watch'),
+)
+
+PAYMENT_ACCOUNT_CHOICES = (
+    ('xieshizheng07@gmail.com', 'xieshizheng07@gmail.com'),
+    ('lunzii@qq.com', 'lunzii@qq.com'),
+)
 
 class EbayProductItemForm(forms.ModelForm):
+    account = forms.ChoiceField(choices=ACCOUNT_CHOICES, widget=forms.Select())
     site_id = forms.ChoiceField(choices=SITE_ID_CHOICES, widget=forms.Select())
     list_type = forms.ChoiceField(choices=LIST_TYPE_CHOICES, widget=forms.RadioSelect())
     duration = forms.ChoiceField(choices=DURATION_CHOICES, widget=forms.Select())
     item_country = forms.ChoiceField(choices=COUNTRY_CHOICES, widget=forms.Select())
+    store_cat_primary = forms.ChoiceField(choices=STORE_CAT_CHOICES, widget=forms.Select())
+    store_cat_secondary = forms.ChoiceField(choices=STORE_CAT_CHOICES, widget=forms.Select())
     dispatch_time_max = forms.ChoiceField(choices=DISPATCH_TIME_CHOICES, widget=forms.Select())
+    payment_account = forms.ChoiceField(choices=PAYMENT_ACCOUNT_CHOICES, widget=forms.Select())
 
     class Meta:
         model = EbayProductItem

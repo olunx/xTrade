@@ -69,6 +69,28 @@ $(document).ready(function () {
                     }
                 }
             },
+            ebay_cat_primary: {
+                validators: {
+                    notEmpty: {
+                        message: 'The value is required and can\'t be empty'
+                    },
+                    greaterThan: {
+                        value: 1,
+                        message: 'The value must be greater than 0'
+                    }
+                }
+            },
+            store_cat_primary: {
+                validators: {
+                    notEmpty: {
+                        message: 'The value is required and can\'t be empty'
+                    },
+                    greaterThan: {
+                        value: 1,
+                        message: 'The value must be greater than 0'
+                    }
+                }
+            },
             title: {
                 message: 'The title is not valid',
                 validators: {

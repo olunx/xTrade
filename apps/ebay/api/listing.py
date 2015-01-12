@@ -55,7 +55,7 @@ def gen_data_by_item(item_id):
             "ListingType": item.list_type,
             "ListingDuration": item.duration,
             "PaymentMethods": "PayPal",
-            "PayPalEmailAddress": "lunzii@qq.com",
+            "PayPalEmailAddress": item.payment_account,
             "AutoPay": "true",
             "PictureDetails": {
                 "PictureURL": item.get_image_checked_list(),

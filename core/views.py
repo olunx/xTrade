@@ -167,9 +167,11 @@ def listing_detail_ebay_create(request):
             print('ProductItemForm save failed.')
         # 新建
         ebay_item = EbayProductItem(product_item=item)
-        gs = goslate.Goslate()
-        ebay_item.title = gs.translate(item.title, 'en')
-        ebay_item.describe = gs.translate(item.content, 'en')
+        # gs = goslate.Goslate()
+        # ebay_item.title = gs.translate(item.title, 'en')
+        # ebay_item.describe = gs.translate(item.content, 'en')
+        ebay_item.title = item.title
+        ebay_item.describe = item.content
         ebay_item.images = item.images
         ebay_item.images_checked = item.images_checked
         ebay_item.save()
