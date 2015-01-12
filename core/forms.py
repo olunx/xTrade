@@ -9,4 +9,4 @@ from core.models import ProductItem
 class ProductItemForm(ModelForm):
     class Meta:
         model = ProductItem
-        fields = ['title', 'content', 'images', 'images_checked', 'purchasing_location', 'purchasing_price', 'purchasing_shipping']
+        fields = ['income_url', 'title', 'content', 'images', 'images_checked', 'purchasing_location', 'purchasing_price', 'purchasing_shipping']

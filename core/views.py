@@ -14,8 +14,9 @@ from apps.ebay.models import EbayStuff, EbayProductItem
 from apps.ebay.forms import EbayProductItemForm
 from apps.ebay.api import listing
 from apps.alibabachina.models import AlibabaChinaStuff
-from apps.alibabachina.scrap import ListingScrap
+from apps.alibabachina.scrap import ListingScrap as AlibabaChinaScrap
 from apps.aliexpress.models import AliexpressStuff
+from apps.alibaba.scrap import ListingScrap as AlibabaScrap
 
 
 def home(request):
@@ -81,7 +82,7 @@ def hot_item_aliexpress(request, category, page):
 
 def listing_list(request):
     page = request.GET.get('page')
-    items_list = ProductItem.objects.all().prefetch_related('ebayproductitem_set')
+    items_list = ProductItem.objects.all().prefetch_related('ebayproductitem_set').order_by('-create_date')
 
     paginator = Paginator(items_list, 25)
     try:
@@ -116,8 +117,12 @@ def listing_detail_create(request):
     page = request.POST.get('page')
     item_id = None
     if page:
-        scrap = ListingScrap()
-        item_id = scrap.scrap_page(page)
+        if '1688.com' in page:
+            scrap = AlibabaChinaScrap()
+            item_id = scrap.scrap_page(page)
+        elif 'alibaba.com' in page:
+            scrap = AlibabaScrap()
+            item_id = scrap.scrap_page(page)
     return redirect('/listing/detail/%s/' % item_id)
 
 

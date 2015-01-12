@@ -42,7 +42,7 @@ def gen_data_by_item(item_id):
         "Item": {
             "Title": item.title,
             "Description": "<![CDATA[ %s ]]>" % item.describe,
-            "PrimaryCategory": {"CategoryID": "377"},
+            "PrimaryCategory": {"CategoryID": item.ebay_cat_primary},
             "StartPrice": item.price,
             "CategoryMappingAllowed": "true",
             "ConditionID": "1000",

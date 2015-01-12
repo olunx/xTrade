@@ -22,6 +22,8 @@ class ProductItem(models.Model):
     retail_price = models.CharField(max_length=30, null=True, verbose_name='Retail Price')
     retail_shipping = models.CharField(max_length=30, null=True, verbose_name='Retail Shipping')
 
+    income_url = models.CharField(max_length=256, null=True, verbose_name='Income URL')
+
     category = models.CharField(max_length=128, null=True, verbose_name='Category')
     condition = models.CharField(max_length=64, null=True, verbose_name='Condition')
     manufacturer = models.CharField(max_length=128, null=True, verbose_name='Manufacturer')
