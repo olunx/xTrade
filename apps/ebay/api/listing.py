@@ -16,7 +16,7 @@ def add_fixed_price_item(data):
     """
 
     try:
-        api = Trading(domain='api.sandbox.ebay.com', config_file=settings.FILE_EBAY_API_CONFIG, warnings=True, timeout=1000, siteid=0)
+        api = Trading(config_file=settings.FILE_EBAY_API_CONFIG, warnings=True, timeout=1000, siteid=0)
 
         if not data:
             return None
@@ -63,7 +63,7 @@ def gen_data_by_item(item_id):
             "ReturnPolicy": {
                 "ReturnsAcceptedOption": "ReturnsAccepted",
                 "RefundOption": "MoneyBack",
-                "ReturnsWithinOption": "Days_30",
+                "ReturnsWithinOption": "Days_14",
                 "Description": "If you are not satisfied, return the book for refund.",
                 "ShippingCostPaidByOption": "Buyer"
             },

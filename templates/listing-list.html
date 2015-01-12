@@ -59,7 +59,7 @@
                             {% for item in items %}
                                 <tr data-index="{{ forloop.counter }}">
                                     <td style="text-align: center;">{{ forloop.counter }}</td>
-                                    <td style=""><a class="btn-link" href="/listing/detail/{{ item.id }}/" target="_self">{{ item.title }}</a></td>
+                                    <td style=""><a class="btn-link" href="/listing/detail/{{ item.id }}/" target="_self">{{ item.title|truncatechars:80 }}</a></td>
                                     <td style="text-align: center; ">
                                         <a class="label label-default" href="{{ item.url }}" target="_blank">1688</a>
                                     </td>

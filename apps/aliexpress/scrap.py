@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'olunx'
 
+import re
 import requests
 from bs4 import BeautifulSoup
 from scrapy.selector import Selector
@@ -8,11 +9,9 @@ from scrapy.selector import Selector
 from core.models import ProductItem
 from core import utils as core_utils
 
-ITEM_TITLE = '//*[@class="ls-icon ls-brief"]/h1/text()'
-ITEM_PRICE = '//*[@class="ls-icon ls-brief"]/table/tr[1]/td/span/node()'
-ITEM_LOCATION = '//*[@class="ls-icon ls-brief"]/table/tr[4]/td/text()'
-ITEM_DETAIL = '//*[@id="J-product-detail"]/div[@class="box box-first"]/table'
-ITEM_CONTENT = '//*[@id="J-rich-text-description"]/node()'
+ITEM_TITLE = '//h1[@class="product-name"]/text()'
+ITEM_PRICE = '//*[@id="sku-price"]/text()'
+ITEM_CONTENT_URL = 'window\.runParams\.descUrl="(.*?)";'
 ITEM_IMAGE = '//img/@src'
 
 
@@ -31,32 +30,35 @@ class ListingScrap():
             return item[0]
         return ''
 
+    def parse_content(self, url):
+        response = requests.get(url)
+        if response and response.status_code == 200:
+            data = response.text.replace("window.productDescription='", '').strip()[:-3]
+            return data
+        return ''
+
     def scrap_page(self, page):
         response = requests.get(page)
         selector = Selector(text=response.text)
         title = selector.xpath(ITEM_TITLE).extract()
         price = selector.xpath(ITEM_PRICE).extract()
-        location = selector.xpath(ITEM_LOCATION).extract()
-        detail = selector.xpath(ITEM_DETAIL).extract()
-        content = selector.xpath(ITEM_CONTENT).extract()
-        content = self.get_text_by_list(content)
-        content_sel = Selector(text=content)
-        images = content_sel.xpath(ITEM_IMAGE).extract()
+
+        content_url = re.findall(ITEM_CONTENT_URL, response.text)
+        if content_url and len(content_url) > 0:
+            content_data = self.parse_content(content_url[0])
+            content_sel = Selector(text=content_data)
+            images = content_sel.xpath(ITEM_IMAGE).extract()
+            content = content_data
 
         # process text
         title = self.get_text(title)
         price = self.get_text_by_list(price)
         price = BeautifulSoup(price).get_text()
-        location = self.get_text(location)
-        detail = self.get_text_by_list(detail)
-        content_text = '%s<br>%s' % (detail, content)
 
         print(title)
         print(price)
-        print(location)
-        print(detail)
         print(images)
-        print(content_text)
+        print(content)
         try:
             item = ProductItem.objects.get(url=page)
         except ProductItem.DoesNotExist:
@@ -65,9 +67,8 @@ class ListingScrap():
                 url=page,
                 title=title,
                 images=images,
-                content=content_text,
+                content=content,
                 purchasing_price=price,
-                purchasing_location=location,
             )
             item.save()
             return item.id
@@ -75,8 +76,7 @@ class ListingScrap():
             item.title = title
             item.images = images
             item.images_checked = None
-            item.content = content_text
+            item.content = content
             item.purchasing_price = price
-            item.purchasing_location = location
             item.save()
             return item.id

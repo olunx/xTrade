@@ -35,7 +35,7 @@
         }
 
         $(document).ready(function () {
-            $('#summernote').summernote({height: 250});
+            $('#summernote').summernote({height: 350});
             $('img.lazy').lazyload();
 
             $('.chosen-select').chosen();
@@ -53,6 +53,12 @@
             $('button#btn-save').click(function() {
                 var btn = $(this);
                 btn.button('loading');
+                //表单检查
+                if(!formValidate()) {
+                    btn.button('reset');
+                    return;
+                }
+                //表单提交
                 var data = formData();
 {#            alert(JSON.stringify(data));#}
                 ajaxPost('/listing/detail/save/', data, function (response) {

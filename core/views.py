@@ -16,6 +16,7 @@ from apps.ebay.api import listing
 from apps.alibabachina.models import AlibabaChinaStuff
 from apps.alibabachina.scrap import ListingScrap as AlibabaChinaScrap
 from apps.aliexpress.models import AliexpressStuff
+from apps.aliexpress.scrap import ListingScrap as AliexpressScrap
 from apps.alibaba.scrap import ListingScrap as AlibabaScrap
 
 
@@ -123,6 +124,9 @@ def listing_detail_create(request):
         elif 'alibaba.com' in page:
             scrap = AlibabaScrap()
             item_id = scrap.scrap_page(page)
+        elif 'aliexpress.com' in page:
+            scrap = AliexpressScrap()
+            item_id = scrap.scrap_page(page)
     return redirect('/listing/detail/%s/' % item_id)
 
 
@@ -228,7 +232,7 @@ def listing_detail_ebay_list(request):
             item.item_id = item_id
             item.save()
             result = 'success'
-            url = '物品：<a target="_blank" href="http://cgi.sandbox.ebay.com/ws/eBayISAPI.dll?ViewItem&item=%s">%s</a><br/>' % (item_id, item_id)
+            url = '物品：<a target="_blank" href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=%s">%s</a><br/>' % (item_id, item_id)
             pass
         elif ack == 'Warning':
             item_id = data.get('ItemID')
@@ -240,7 +244,7 @@ def listing_detail_ebay_list(request):
             item.save()
             result = 'warning'
             msg = error_msg
-            url = ' ebay物品: <a target="_blank" href="http://cgi.sandbox.ebay.com/ws/eBayISAPI.dll?ViewItem&item=%s">%s</a><br/>' % (item_id, item_id)
+            url = ' ebay物品: <a target="_blank" href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=%s">%s</a><br/>' % (item_id, item_id)
             pass
         elif ack == 'Failure':
             error_code = data.get('Errors').get('ErrorCode')
