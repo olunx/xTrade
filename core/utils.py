@@ -4,6 +4,7 @@ __author__ = 'olunx'
 import ast
 import time
 import datetime
+from urlparse import urlparse
 
 from django_ajax.decorators import ajax
 import goslate
@@ -27,3 +28,17 @@ def get_image_list(images):
     if images:
         data = ast.literal_eval(images)
     return list(set(data))
+
+
+def remove_url_query(url):
+    u = urlparse(url)
+    return '%s://%s/%s' % (u.scheme, u.netloc, u.path)
+
+
+def remove_url_query_list(items):
+    results = []
+    if items:
+        for item in items:
+            item = remove_url_query(item)
+            results.append(item)
+    return results

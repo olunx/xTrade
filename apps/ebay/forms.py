@@ -6,8 +6,8 @@ from django import forms
 from apps.ebay.models import EbayProductItem
 
 ACCOUNT_CHOICES = (
-    ('tengyu072012', 'tengyu072012'),
     ('tengyutrade2014', 'tengyutrade2014'),
+    ('tengyu072012', 'tengyu072012'),
     ('testuser_olunx', 'testuser_olunx'),
 )
 
