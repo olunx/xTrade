@@ -67,6 +67,7 @@ class ListingScrap():
         price = BeautifulSoup(self.get_text_by_list(price)).get_text()
         location = self.get_text(location)
         shipping = BeautifulSoup(self.get_text_by_list(shipping)).get_text()
+        images = core_utils.remove_url_query_list(images)
         content_text = self.get_text_content(content_text)
 
         print(title)

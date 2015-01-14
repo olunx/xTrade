@@ -54,6 +54,7 @@ class ListingScrap():
         title = self.get_text(title)
         price = self.get_text_by_list(price)
         price = BeautifulSoup(price).get_text()
+        images = core_utils.remove_url_query_list(images)
 
         print(title)
         print(price)
