@@ -86,7 +86,7 @@ class EbayProductItem(models.Model):
     images_checked = models.TextField(null=True, verbose_name='Images Checked')
     price = models.CharField(max_length=30, null=True, verbose_name='Price', default='0.00')
 
-    quality = models.CharField(max_length=32, null=True, verbose_name='Quality', default='3')
+    quality = models.CharField(max_length=32, null=True, verbose_name='Quality', default='10')
     duration = models.CharField(max_length=32, null=True, verbose_name='Duration', default='GTC')
     item_location = models.CharField(max_length=32, null=True, verbose_name='Item Location', default='Shenzhen')
     item_country = models.CharField(max_length=32, null=True, verbose_name='Item Country', default='China')
