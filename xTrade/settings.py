@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_ajax',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'core',
     'apps.ebay',
     'apps.alibabachina',
@@ -75,9 +75,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'xtrade',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
-        'PORT': '36000',
+        'PORT': '3306',
     }
 }
 
